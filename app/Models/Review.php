@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    protected $fillable = ['name_patient', 'text', 'date', 'email'];
+
     use HasFactory;
 }
