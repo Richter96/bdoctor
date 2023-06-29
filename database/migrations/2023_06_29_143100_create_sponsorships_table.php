@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('sponsorships', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('start_date'); // required
+            $table->dateTime('end_date'); // required
+            $table->boolean('success')->default(false); // required
             $table->timestamps();
         });
     }
