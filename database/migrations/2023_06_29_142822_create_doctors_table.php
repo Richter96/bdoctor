@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->string('phone', 10)->unique(); // required
+
+            $table->unsignedDecimal('phone', 10, 0)->unique(); // required
             $table->string('address', 100); // required
+
             $table->string('photo', 255)->nullable(); // [file]
             $table->string('cv', 255)->nullable(); // [file]
-            $table->text('service', 100); // required
+
+            $table->text('service', 255); // required
+
             $table->string('slug', 100)->nullable();
             $table->timestamps();
         });

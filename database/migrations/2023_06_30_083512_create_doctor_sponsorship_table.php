@@ -20,6 +20,11 @@ return new class extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors')->cascadeOnDelete();
             $table->foreign('sponsorship_id')->references('id')->on('sponsorships')->cascadeOnDelete();
 
+            $table->dateTime('start_date'); // required
+            $table->dateTime('end_date'); // required
+            $table->boolean('success'); // required
+
+            $table->timestamps();
             $table->primary(['doctor_id', 'sponsorship_id']);
         });
     }
