@@ -19,10 +19,7 @@ return new class extends Migration
 
             $table->foreign('doctor_id')->references('id')->on('doctors')->cascadeOnDelete();
             $table->foreign('specialization_id')->references('id')->on('specializations')->cascadeOnDelete();
-            $table->dateTime('start_date'); // required
-            $table->dateTime('end_date'); // required
-            $table->boolean('success'); // required
-            $table->timestamps();
+
             $table->primary(['doctor_id', 'specialization_id']);
 
         });
