@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
+use App\Models\Specialization;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,7 +46,16 @@ class DoctorController extends Controller
      */
     public function store(StoreDoctorRequest $request)
     {
-        //
+        $val_data = $request->validated();
+        $user_id = Auth::id();
+
+        $userDetail = user::find($user_id);
+        $doctor->update($val_data);
+        
+        if($request ->has('specializations')){
+            $doctor->specializations()->sync($request->specializations);
+        }
+        return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
     /**
@@ -70,8 +80,12 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Doctor $doctor)
-    {
-        //
+    {  
+        $user_id = Auth::id();
+        $userDetail = user::find($user_id);
+ 
+        $specializations = Specialization::orderByDesc('id')->get();
+        return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
     }
 
     /**
@@ -81,7 +95,19 @@ class DoctorController extends Controller
      */
     public function update(UpdateDoctorRequest $request, Doctor $doctor)
     {
-        //
+        $val_data = $request->validated();
+        $user_id = Auth::id();
+
+        $userDetail = User::findOrFail($user_id);
+        $userDetail->name = $val_data['name'];
+        $userDetail->save();
+
+        $doctor->update($val_data);
+        if ($request->has('specializations')) {
+            $doctor->specializations()->sync($request->specializations);
+        }
+
+        return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
     /**

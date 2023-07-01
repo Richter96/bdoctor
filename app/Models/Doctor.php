@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Doctor extends Model
 {
-    protected $fillable = ['phone', 'address', 'photo', 'cv', 'service', 'slug'];
+    protected $fillable = ['phone', 'address', 'photo', 'cv', 'service', 'slug', 'specialization_id'];
 
     use HasFactory;
 
@@ -33,7 +33,7 @@ class Doctor extends Model
     /**
      * The specilizations that belong to the Doctor
      */
-    public function specilizations(): BelongsToMany
+    public function specializations(): BelongsToMany
     {
         return $this->belongsToMany(Specialization::class);
     }
