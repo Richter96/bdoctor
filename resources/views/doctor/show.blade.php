@@ -20,7 +20,7 @@
                         <p><strong>Indirizzo </strong>{{ $doctor->address }}</p>
                         <span><strong>Specializzazioni:</strong></span>
                         <ul>
-                            @forelse ($doctor->specilizations as $specialization)
+                            @forelse ($doctor->specializations as $specialization)
                                 <li>{{ $specialization->name }}</li>
                             @empty
                                 <li class=" list-unstyled">nessuna specializzazione</li>
