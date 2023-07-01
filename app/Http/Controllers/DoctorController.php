@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
@@ -15,7 +17,15 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        // dd($user_id);
+        // $doctor = Doctor::where('id', $user_id)->get(); // non funziona rotta show in
+        $doctor = Doctor::find($user_id);
+        // $user = User::where('id', $user_id)->get();
+
+        // dd($user_id, $doctor);
+
+        return view('doctor.index', compact('doctor'));
     }
 
     /**
@@ -31,7 +41,6 @@ class DoctorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDoctorRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDoctorRequest $request)
@@ -42,18 +51,22 @@ class DoctorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
     public function show(Doctor $doctor)
     {
-        //
+
+        $user_id = Auth::id();
+        // $user = User::where('id', $user_id)->get();
+        $userDetail = user::find($user_id);
+        // dd($userDetail);
+
+        return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
     public function edit(Doctor $doctor)
@@ -64,8 +77,6 @@ class DoctorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDoctorRequest  $request
-     * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateDoctorRequest $request, Doctor $doctor)
@@ -76,7 +87,6 @@ class DoctorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
     public function destroy(Doctor $doctor)
