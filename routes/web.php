@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +19,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')->group(function () {
+
+    Route::resource('doctor', DoctorController::class)->parameters([
+        'doctor' => 'doctor:slug',
+    ]);
+    Route::resource('messages', MessageController::class);
+    Route::resource('rewiews', ReviewController::class);
 });
 
 Route::get('/dashboard', function () {
