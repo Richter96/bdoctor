@@ -17,7 +17,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+
+    // $slug = Auth::user()->doctor->slug;
+    public const HOME = '/dashboard/doctor';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
