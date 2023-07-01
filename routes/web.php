@@ -21,8 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')->group(function () {
-
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::resource('doctor', DoctorController::class)->parameters([
         'doctor' => 'doctor:slug',
     ]);
@@ -32,7 +31,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard')-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
