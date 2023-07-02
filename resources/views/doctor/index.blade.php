@@ -6,6 +6,8 @@
             {{ __('Dashboard') }}
         </h2>
 
+        <a class="btn btn-primary my-3" href="{{ route('doctor.show', $doctor) }}" role="button">Profile</a>
+
         <div class="row justify-content-center">
             <div class="col">
                 <div class="card">

@@ -14,6 +14,6 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
-        //
+    
     }
 }
