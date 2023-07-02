@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('photo', 255)->nullable(); // [file]
             $table->string('cv', 255)->nullable(); // [file]
 
-            $table->text('service', 255); // required
+            $table->text('service')->nullable(); // required
 
             $table->string('slug', 100)->nullable();
             $table->timestamps();

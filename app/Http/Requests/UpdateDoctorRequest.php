@@ -25,15 +25,14 @@ class UpdateDoctorRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'lastname' => 'required|max:50',   
+            'lastname' => 'required|max:50',
             'address' => 'required|max:100',
             'phone' => 'required|max:10',
             'photo' => 'nullable|max:255',
             'cv' => 'nullable|max:255',
-            'service' => 'required|max:100',
-            'specializations' => ['exists:specializations,id']
+            'service' => 'required',
+            'specializations' => ['exists:specializations,id'],
 
-    
         ];
     }
 }
