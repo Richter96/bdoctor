@@ -11,10 +11,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -35,15 +34,16 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'lastname' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'max:10'],
             'address' => ['required', 'string', 'max:100'],
-            'service' => ['required', 'string', 'max:255'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -52,8 +52,7 @@ class RegisteredUserController extends Controller
             'user_id' => $user->id,
             'phone' => $request->phone,
             'address' => $request->address,
-            'service' => $request->service,
-            'slug' => Str::slug(($user->name . $user->id), '-'),
+            'slug' => Str::slug(($user->name.$user->id), '-'),
         ]);
 
         event(new Registered($user, $doctor));
@@ -62,8 +61,8 @@ class RegisteredUserController extends Controller
 
         /**
          * ! Warning
-         * Dirty fix, bypassing RouteServiceProvider::Home 
+         * Dirty fix, bypassing RouteServiceProvider::Home
          */
-        return redirect('/dashboard/doctor/' . $doctor->slug);
+        return redirect('/dashboard/doctor/'.$doctor->slug);
     }
 }

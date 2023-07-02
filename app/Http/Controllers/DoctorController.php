@@ -50,11 +50,13 @@ class DoctorController extends Controller
         $user_id = Auth::id();
 
         $userDetail = user::find($user_id);
+        $doctor = Doctor::find($user_id);
         $doctor->update($val_data);
-        
-        if($request ->has('specializations')){
+
+        if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
         }
+
         return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
@@ -80,11 +82,12 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Doctor $doctor)
-    {  
+    {
         $user_id = Auth::id();
         $userDetail = user::find($user_id);
- 
+
         $specializations = Specialization::orderByDesc('id')->get();
+
         return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
     }
 
@@ -100,6 +103,7 @@ class DoctorController extends Controller
 
         $userDetail = User::findOrFail($user_id);
         $userDetail->name = $val_data['name'];
+        $userDetail->lastname = $val_data['lastname'];
         $userDetail->save();
 
         $doctor->update($val_data);
