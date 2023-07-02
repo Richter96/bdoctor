@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark shadow px-5">
-    <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+    <a class="navbar-brand d-flex align-items-center" href="#">
         {{-- <img height="40" src="{{ asset('storage/cyberfolk-logo.png') }}" alt="Personal Logo"> --}}
         LOGO
     </a>
@@ -10,16 +10,7 @@
     </button>
     <!-- navbar-toggler -->
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link text-white" href="{{ url('/') }}">{{ __('Home') }}</a></li>
-            @auth
-                <li>Dashboard</li>
-                <li class="nav-item"><a class="nav-link text-white" href="{{ route('doctor.index') }}">{{ __('Dashboard') }}</a></li>
-            @endauth
-        </ul>
-        <!-- navbar-nav Left -->
-
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             @guest
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a></li>
@@ -32,6 +23,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('profile') }}">{{ __('Profile') }}</a>
+                        <a class="dropdown-item" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"> @csrf </form>
                     </div>
