@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Doctor;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,7 +30,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        /**
+         * ! Warning
+         * Dirty fix, bypassing RouteServiceProvider::Home 
+         */
+        $user_id = Auth::id();
+        $doctor = Doctor::find($user_id);
+        return redirect('/dashboard/doctor/' . $doctor->slug);
     }
 
     /**
