@@ -15,6 +15,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -34,7 +35,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'max:10'],
             'address' => ['required', 'string', 'max:100'],
@@ -59,6 +60,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        /**
+         * ! Warning
+         * Dirty fix, bypassing RouteServiceProvider::Home 
+         */
+        return redirect('/dashboard/doctor/' . $doctor->slug);
     }
 }
