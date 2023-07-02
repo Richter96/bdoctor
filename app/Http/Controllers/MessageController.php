@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
+use App\Models\Doctor;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -15,7 +18,12 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        // dd($user_id);
+        // $doctor = Doctor::where('id', $user_id)->get(); // non funziona rotta show in
+        $doctor = Doctor::find($user_id);
+        // $user = User::where('id', $user_id)->get();
+        return view('message.index', compact('doctor')); //Serve per far funzionare la sidebar
     }
 
     /**
