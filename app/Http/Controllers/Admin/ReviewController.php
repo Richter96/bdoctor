@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Review;
-use App\Models\Doctor;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -18,9 +16,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $user_id = Auth::id();
-        $doctor = Doctor::find($user_id);
-        return view('review.index', compact('doctor'));  // $doctor Serve per far funzionare la sidebar
+        //
     }
 
     /**

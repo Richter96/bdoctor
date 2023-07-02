@@ -15,16 +15,6 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedDecimal('phone', 10, 0)->unique(); // required
-            $table->string('address', 100); // required
-
-            $table->string('photo', 255)->nullable(); // [file]
-            $table->string('cv', 255)->nullable(); // [file]
-
-            $table->text('service')->nullable(); // required
-
-            $table->string('slug', 100)->nullable();
             $table->timestamps();
         });
     }

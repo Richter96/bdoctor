@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('vote'); // required [1;5]
             $table->timestamps();
         });
     }

@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
-use App\Models\Doctor;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -18,9 +15,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $user_id = Auth::id();
-        $doctor = Doctor::find($user_id);
-        return view('message.index', compact('doctor')); // $doctor Serve per far funzionare la sidebar
+        //
     }
 
     /**

@@ -4,19 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
-    protected $fillable = ['name_patient', 'text', 'date', 'email', 'doctor_id'];
+    protected $fillable = ['name_patient', 'text', 'date', 'email'];
 
     use HasFactory;
-
-    /**
-     * Get the doctor that owns the Review
-     */
-    public function doctor(): BelongsTo
-    {
-        return $this->belongsTo(Doctor::class);
-    }
 }

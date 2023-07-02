@@ -13,7 +13,7 @@ class StoreSpecializationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,7 +24,7 @@ class StoreSpecializationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            //
         ];
     }
 }
