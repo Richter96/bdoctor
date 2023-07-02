@@ -19,11 +19,8 @@ class MessageController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        // dd($user_id);
-        // $doctor = Doctor::where('id', $user_id)->get(); // non funziona rotta show in
         $doctor = Doctor::find($user_id);
-        // $user = User::where('id', $user_id)->get();
-        return view('message.index', compact('doctor')); //Serve per far funzionare la sidebar
+        return view('message.index', compact('doctor')); // $doctor Serve per far funzionare la sidebar
     }
 
     /**
