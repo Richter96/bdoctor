@@ -69,12 +69,17 @@ class DoctorController extends Controller
     {
 
         $user_id = Auth::id();
-        // $user = User::where('id', $user_id)->get();
-        $userDetail = user::find($user_id);
-        // dd($userDetail);
-        // dd($doctor->specializations());
 
-        return view('doctor.show', compact('doctor', 'userDetail'));
+        if ($doctor->id == $user_id) {
+            // $user = User::where('id', $user_id)->get();
+            $userDetail = user::find($user_id);
+            // dd($userDetail);
+            // dd($doctor->specializations());
+
+            return view('doctor.show', compact('doctor', 'userDetail'));
+        } else {
+            abort(403, 'Accesso negato');
+        }
     }
 
     /**
@@ -84,12 +89,18 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
+
         $user_id = Auth::id();
-        $userDetail = user::find($user_id);
 
-        $specializations = Specialization::orderByDesc('id')->get();
+        if ($doctor->id == $user_id) {
+            $userDetail = user::find($user_id);
 
-        return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
+            $specializations = Specialization::orderByDesc('id')->get();
+
+            return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
+        } else {
+            abort(403, 'Accesso negato');
+        }
     }
 
     /**
