@@ -72,6 +72,7 @@ class DoctorController extends Controller
         // $user = User::where('id', $user_id)->get();
         $userDetail = user::find($user_id);
         // dd($userDetail);
+        // dd($doctor->specializations());
 
         return view('doctor.show', compact('doctor', 'userDetail'));
     }

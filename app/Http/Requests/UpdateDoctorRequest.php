@@ -31,7 +31,7 @@ class UpdateDoctorRequest extends FormRequest
             'photo' => 'nullable|max:255',
             'cv' => 'nullable|max:255',
             'service' => 'required',
-            'specializations' => ['exists:specializations,id'],
+            'specializations' => ['required', 'exists:specializations,id'],
 
         ];
     }
