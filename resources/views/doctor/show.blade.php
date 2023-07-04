@@ -18,8 +18,8 @@
     <div class="row py-5 shadow">
         <div class="col px-5 me-5">
 
-            <div class="card d-flex flex-row">
-                <div class="col-7 card-body">
+            <div class="card d-flex flex-row p-2">
+                <div class="col-6 card-body">
                     <div class="d-flex align-items-center">
                         <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $userDetail->name }} {{ $userDetail->lastname }}</h2>
                         <a class="btn btn-danger " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
@@ -45,8 +45,8 @@
                     </ul>
 
                 </div>
-                <div class="col card_image p-5" style="width:300px">
-                    <img class="card-img-top" src="https://picsum.photos/200/300" alt="Title">
+                <div class="col-6 card_image p-3" style="width:300px">
+                    <img class="card-img-top"  src="{{ asset('storage/' . $doctor->photo) }}" alt="Photo">
                 </div>
             </div>
 
