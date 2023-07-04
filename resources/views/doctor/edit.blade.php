@@ -4,7 +4,7 @@
 <section class="bg-dark text-white mt-4 rounded-4 ">
     <div class="container py-3">
         <h3 class="py-3 px-4">Edit your profile</h3>
-        <form class="row g-3" action="{{ route('doctor.update', ['doctor' => $doctor->slug]) }}" method="post">
+        <form class="row g-3" action="{{ route('doctor.update', ['doctor' => $doctor->slug]) }}" enctype="multipart/form-data" method="post">
             @csrf
             @method('PUT')
             <div class="col-12 d-flex justify-content-around">
@@ -49,10 +49,12 @@
             </div>
 
             <div class="col-12 d-flex justify-content-around">
+                
                 <div class="col-5">
                     <label for="photo" class="form-label">Photo</label>
                     <input type="file" class="form-control " name="photo" id="photo">
                 </div>
+
                 {{-- photo --}}
                 <div class="col-5">
                     <label for="cv" class="form-label">Curriculum Vitae</label>

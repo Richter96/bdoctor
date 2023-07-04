@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use App\Models\Specialization;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DoctorController extends Controller
 {
@@ -57,6 +58,11 @@ class DoctorController extends Controller
             $doctor->specializations()->sync($request->specializations);
         }
 
+        if ($request->hasFile('photo')) {
+            $photo_doctor = Storage::put('uploads', $val_data['photo']);
+            $val_data['photo'] = $photo_doctor;
+        }
+
         return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
@@ -101,6 +107,7 @@ class DoctorController extends Controller
         } else {
             abort(403, 'Accesso negato');
         }
+        
     }
 
     /**
@@ -118,11 +125,20 @@ class DoctorController extends Controller
         $userDetail->lastname = $val_data['lastname'];
         $userDetail->save();
 
-        $doctor->update($val_data);
         if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
         }
-
+        
+        if ($request->hasFile('photo')) {
+            if ($doctor->photo) {
+                Storage::delete($doctor->photo);
+            }
+            $photo_doctor = Storage::put('uploads', $val_data['photo']);
+            $val_data['photo'] = $photo_doctor;
+        }
+        
+        $doctor->update($val_data);
+        
         return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
