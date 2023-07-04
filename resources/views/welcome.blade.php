@@ -11,16 +11,23 @@
         <div class="container text-center">
             <h3>Che specialista desideri?</h3>
 
-            <div class="mb-3">
-                <label for="" class="form-label">Specializazzione</label>
-                <select class="form-select form-select-lg" name="" id="">
-                    <option selected>Select one</option>
-                    @foreach ($specializations as $specialization)
-                        <option value="">{{ $specialization->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <form action="{{ route('form-specialization') }}" method="post">
+                @csrf
+                <div class="mb-3">
+                    <label for="" class="form-label">Specializazzione</label>
+                    <select class="form-select form-select-lg" name="specializations" id="specializations">
+                        <option selected>Select one</option>
+                        @foreach ($specializations as $specialization)
+                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-light text-dark px-4">Search</button>
+                </div>
+            </form>
 
+            <div>{{ $specialization->name }}</div>
         </div>
     </div>
 @endsection
