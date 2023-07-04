@@ -21,9 +21,11 @@
             <div class="card d-flex flex-row">
                 <div class="col-7 card-body">
                     <div class="d-flex align-items-center">
-                        <h2 class="card-title py-4 text-uppercase me-3">{{ $userDetail->name }}
-                            {{ $userDetail->lastname }}</h2>
-                        <a class="btn btn-danger my-3 " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
+                        <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $userDetail->name }} {{ $userDetail->lastname }}</h2>
+                        <a class="btn btn-danger " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
+                    </div>
+                    <div class=" mb-4">
+                        <smal class=" text-muted">Premi sul pulsante Edit per modificare il profilo.</smal>
                     </div>
                     <div>
                         <p><strong>Phone number: </strong>{{ $doctor->phone }}</p>
