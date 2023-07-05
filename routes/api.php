@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\DoctorController;
+use App\Http\Controllers\API\SpecializationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/doctors',[DoctorController::class, 'index']);
+Route::get('/doctors/{doctor:slug}',[DoctorController::class, 'show']);
+Route::get('/specializations',[SpecializationController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
