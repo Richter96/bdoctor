@@ -48,4 +48,41 @@ public function show($slug)
     }
 
     }
+
+    public function showBySpecialization($specialization_id) {
+
+        $specialization = Specialization::find($specialization_id);
+        if($specialization) {
+
+            $doctors_id_specializations = $specialization->doctors->pluck('id')->toArray();
+            $doctors = [];
+            $users = [];
+            foreach ($doctors_id_specializations as $id) {
+                array_push($doctors, Doctor::with(['specializations'])->find($id));
+                array_push($users, User::find($id));
+            }
+
+            $specializations = Specialization::all();
+
+            if ($doctors) {
+
+                return response()->json([
+                    'success' => true,
+                    'result' => $doctors,
+                    'users' => $users,
+                ]);
+
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'result' => 'doctor not found 404',
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'result' => 'specialization not found 404',
+            ]);
+        }
+    }
 }
