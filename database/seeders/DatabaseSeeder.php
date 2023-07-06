@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DoctorSeeder::class,
             SpecializationSeeder::class,
+            VoteSeeder::class,
         ]);
     }
 }

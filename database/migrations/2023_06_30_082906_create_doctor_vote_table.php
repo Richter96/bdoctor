@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors')->cascadeOnDelete();
             $table->foreign('vote_id')->references('id')->on('votes')->cascadeOnDelete();
 
-            $table->primary(['doctor_id', 'vote_id']);
+            //$table->primary(['doctor_id', 'vote_id']);
         });
     }
 
