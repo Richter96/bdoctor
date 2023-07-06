@@ -20,7 +20,8 @@ class MessageController extends Controller
     {
         $user_id = Auth::id();
         $doctor = Doctor::find($user_id);
-        return view('message.index', compact('doctor')); // $doctor Serve per far funzionare la sidebar
+        $messages= Message::find($user_id);
+        return view('message.index', compact('doctor', 'messages')); // $doctor Serve per far funzionare la sidebar
     }
 
     /**
@@ -52,7 +53,9 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        $user_id = Auth::id();
+        $messages= Message::find($user_id);
+        return view('message.index', compact('messages'));
     }
 
     /**
