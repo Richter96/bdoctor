@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\SpecializationController;
+use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,9 @@ Route::get('/doctors',[DoctorController::class, 'index']);
 Route::get('/doctors/{doctor:slug}',[DoctorController::class, 'show']);
 Route::get('/specializations',[SpecializationController::class, 'index']);
 Route::get('/doctor_by_spec/{specialization:id}',[DoctorController::class, 'showBySpecialization']);
+Route::post('/review', [ReviewController::class, 'store']);
+Route::post('/message', [MessageController::class, 'store']);
+Route::post('/vote', [VoteController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
