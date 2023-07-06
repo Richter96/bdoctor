@@ -20,7 +20,9 @@ class ReviewController extends Controller
     {
         $user_id = Auth::id();
         $doctor = Doctor::find($user_id);
-        return view('review.index', compact('doctor'));  // $doctor Serve per far funzionare la sidebar
+        $review= Review::all();
+        $reviews=Review::where('doctor_id', $user_id)->get();
+        return view('review.index', compact('doctor', 'reviews'));  // $doctor Serve per far funzionare la sidebar
     }
 
     /**
@@ -40,7 +42,9 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request)
     {
-        //
+        $val_data = $request->validated();
+        $new_review = Review::create($val_data);
+        return view();
     }
 
     /**
@@ -50,7 +54,9 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        $user_id = Auth::id();
+        $reviews= Review::find($user_id);
+        return view('reviews.index', compact('reviews'));
     }
 
     /**
@@ -80,6 +86,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        return to_route('review.index')->with('message', 'Review of ' . $review->name_patient . ' deleted');
     }
 }

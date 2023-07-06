@@ -93,6 +93,6 @@ class MessageController extends Controller
     public function destroy(Message $message)
     {
         $message->delete();
-        return to_route('message.index')->with('message', 'Message of'.$message->name_patient. 'deleted');
+        return to_route('message.index')->with('message', 'Message of '.$message->name_patient. ' deleted');
     }
 }
