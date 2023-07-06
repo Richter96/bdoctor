@@ -35,7 +35,6 @@ class MessageSeeder extends Seeder
             $message_create = new Message();
             $message_create->name_patient = $message->name_patient;
             $message_create->email_patient = $message->email_patient;
-            $message_create->date_time = now();
             $message_create->save();
 
         }

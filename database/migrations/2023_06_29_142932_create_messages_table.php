@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name_patient', 100); //required;
             $table->string('email_patient', 100); //required
             $table->text('text')->nullable();
-            $table->dateTime('date_time'); //required
             $table->timestamps();
         });
     }
