@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-        @forelse ($messages as $message)
         <table class="table">
             <thead>
                 <tr>
@@ -12,6 +11,7 @@
                     <th>Data</th>
                 </tr>
             </thead>
+            @forelse ($messages as $message)
             <tbody>
                 <tr>
                     <td scope="row">{{$message->name_patient}}</td>

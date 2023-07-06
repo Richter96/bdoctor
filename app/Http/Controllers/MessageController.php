@@ -20,7 +20,7 @@ class MessageController extends Controller
     {
         $user_id = Auth::id();
         $doctor = Doctor::find($user_id);
-        $messages= Message::find($user_id);
+        $messages = Message::where($user_id);
         return view('message.index', compact('doctor', 'messages')); // $doctor Serve per far funzionare la sidebar
     }
 
