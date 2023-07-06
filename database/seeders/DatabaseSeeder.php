@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             DoctorSeeder::class,
             SpecializationSeeder::class,
             VoteSeeder::class,
+            MessageSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }
