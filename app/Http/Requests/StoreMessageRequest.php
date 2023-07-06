@@ -25,7 +25,7 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             'name_patient' => 'required',
-            'nemail_patient' => 'required',
+            'email_patient' => 'required',
             'text' => 'required',
         ];
     }
