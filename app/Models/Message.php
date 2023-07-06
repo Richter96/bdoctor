@@ -10,7 +10,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name_patient', 'email_patient', 'text', 'created_at'];
+    protected $fillable = ['name_patient', 'email_patient', 'text', 'created_at', 'doctor_id'];
 
     /**
      * Get the doctor that owns the Message
