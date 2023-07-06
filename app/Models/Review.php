@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
-    protected $fillable = ['name_patient', 'text', 'date', 'email', 'doctor_id'];
+    protected $fillable = ['name_patient', 'text', 'created_at', 'doctor_id'];
 
     use HasFactory;
 

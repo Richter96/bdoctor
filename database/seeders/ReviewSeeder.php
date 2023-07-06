@@ -18,12 +18,10 @@ class ReviewSeeder extends Seeder
         $reviews =[
             (object) [
                 'name_patient' => 'daniele',
-                'email' => 'daniele.ferrari@gmail.com',
                 'text' => 'bravo ragazzo'
             ],
             (object) [
                 'name_patient' => 'martina',
-                'email' => 'martina.ferrari@gmail.com',
                 'text' => 'bravo ragazzo'
             ]
         ];
@@ -31,11 +29,8 @@ class ReviewSeeder extends Seeder
         foreach ($reviews as $review) {
             $review_create = new Review();
             $review_create->name_patient = $review->name_patient;
-            $review_create->email = $review->email;
             $review_create->text = $review->text;
-            $review_create->date= now();
             $review_create->save();
-
         }
     }
 }
