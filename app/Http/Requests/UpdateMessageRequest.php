@@ -13,7 +13,7 @@ class UpdateMessageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name_patient' => 'required',
+            'nemail_patient' => 'required',
+            'text' => 'required',
         ];
     }
 }

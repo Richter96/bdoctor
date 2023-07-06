@@ -20,7 +20,9 @@ class MessageController extends Controller
     {
         $user_id = Auth::id();
         $doctor = Doctor::find($user_id);
-        return view('message.index', compact('doctor')); // $doctor Serve per far funzionare la sidebar
+        $message= Message::all();
+        $messages = Message::where('doctor_id', $user_id)->get();
+        return view('message.index', compact('doctor', 'messages')); // $doctor Serve per far funzionare la sidebar
     }
 
     /**
@@ -41,7 +43,9 @@ class MessageController extends Controller
      */
     public function store(StoreMessageRequest $request)
     {
-        //
+        $val_data = $request->validated();
+        $new_message = Message::create($val_data);
+        return view();
     }
 
     /**
@@ -52,7 +56,9 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        $user_id = Auth::id();
+        $messages= Message::find($user_id);
+        return view('message.index', compact('messages'));
     }
 
     /**
@@ -86,6 +92,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $message->delete();
+        return to_route('message.index')->with('message', 'Message of'.$message->name_patient. 'deleted');
     }
 }
