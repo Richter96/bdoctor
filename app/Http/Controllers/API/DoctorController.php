@@ -11,48 +11,47 @@ use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
-    public function index() {
+    public function index()
+    {
 
         $doctors = Doctor::with(['specializations'])->get();
 
         return response()->json([
             'success' => true,
             'doctors' => $doctors,
-            'user'=>User::all(),
-        ]);
-
-    }
-
-
-public function show($slug)
-{
-    // dd($slug);
-    $doctor = Doctor::with(['specializations'])->where('slug', $slug)->first();
-    $user_id = $doctor->id;
-    $userDetail = User::find($user_id);
-    // dd($userDetail);
-
-    if ($doctor) {
-
-        return response()->json([
-            'success' => true,
-            'result' => $doctor,
-            'user' => $userDetail,
-        ]);
-
-    } else {
-        return response()->json([
-            'success' => false,
-            'result' => 'doctor not found 404',
+            'user' => User::all(),
         ]);
     }
 
+
+    public function show($slug)
+    {
+        // dd($slug);
+        $doctor = Doctor::with(['specializations'])->where('slug', $slug)->first();
+        $user_id = $doctor->id;
+        $userDetail = User::find($user_id);
+        // dd($userDetail);
+
+        if ($doctor) {
+
+            return response()->json([
+                'success' => true,
+                'result' => $doctor,
+                'user' => $userDetail,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'result' => 'doctor not found 404',
+            ]);
+        }
     }
 
-    public function showBySpecialization($specialization_id) {
+    public function showBySpecialization($specialization_id)
+    {
 
         $specialization = Specialization::find($specialization_id);
-        if($specialization) {
+        if ($specialization) {
 
             $doctors_id_specializations = $specialization->doctors->pluck('id')->toArray();
             $doctors = [];
@@ -71,7 +70,6 @@ public function show($slug)
                     'result' => $doctors,
                     'users' => $users,
                 ]);
-
             } else {
                 return response()->json([
                     'success' => false,
@@ -84,5 +82,17 @@ public function show($slug)
                 'result' => 'specialization not found 404',
             ]);
         }
+    }
+
+    public function avgVotesByDoc()
+    {
+        /*$avgVotes = Doctor::table('doctors')->select('doc')->join('doctor_vote', 'doctor.id', '=', 'doctor_vote.doctor_id')->join('votes', 'votes.id', '=', 'doctor_vote.vote_id')->where('doctor.id', $doctor_id)->avg('votes.vote');
+        echo($avgVotes); */
+        Doctor::table('doctors')
+            ->select('doctors.id as doctor_id', Doctor::raw("'AVG'('votes.vote') as avgVote"))
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->groupBy('doctors.id')
+            ->get();
     }
 }

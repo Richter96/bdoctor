@@ -52,5 +52,8 @@
 
         </div>
     </div>
+    <div>
+        {{ $averages }}
+    </div>
 </div>
 @endsection

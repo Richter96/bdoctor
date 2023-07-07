@@ -9,6 +9,7 @@ use App\Models\Specialization;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
@@ -76,16 +77,25 @@ class DoctorController extends Controller
 
         $user_id = Auth::id();
 
+        $averages = Doctor::select('slug as slug', 'doctors.id as doctor_id', Doctor::raw('AVG(votes.vote) as avgVote'))
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->groupBy('doctors.id')
+            ->get();
+
         if ($doctor->id == $user_id) {
             // $user = User::where('id', $user_id)->get();
             $userDetail = user::find($user_id);
             // dd($userDetail);
             // dd($doctor->specializations());
 
-            return view('doctor.show', compact('doctor', 'userDetail'));
+            return view('doctor.show', compact('doctor', 'userDetail', 'averages'));
         } else {
             abort(403, 'Accesso negato');
         }
+
+        /*$avgVotes = Doctor::table('doctors')->select('doc')->join('doctor_vote', 'doctor.id', '=', 'doctor_vote.doctor_id')->join('votes', 'votes.id', '=', 'doctor_vote.vote_id')->where('doctor.id', $doctor_id)->avg('votes.vote');
+            echo($avgVotes); */
     }
 
     /**
@@ -107,7 +117,6 @@ class DoctorController extends Controller
         } else {
             abort(403, 'Accesso negato');
         }
-        
     }
 
     /**
@@ -128,7 +137,7 @@ class DoctorController extends Controller
         if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
         }
-        
+
         if ($request->hasFile('photo')) {
             if ($doctor->photo) {
                 Storage::delete($doctor->photo);
@@ -136,9 +145,9 @@ class DoctorController extends Controller
             $photo_doctor = Storage::put('uploads', $val_data['photo']);
             $val_data['photo'] = $photo_doctor;
         }
-        
+
         $doctor->update($val_data);
-        
+
         return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
