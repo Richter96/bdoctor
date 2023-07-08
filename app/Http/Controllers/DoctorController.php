@@ -20,12 +20,8 @@ class DoctorController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        // dd($user_id);
-        // $doctor = Doctor::where('id', $user_id)->get(); // non funziona rotta show in
-        $doctor = Doctor::find($user_id);
-        // $user = User::where('id', $user_id)->get();
 
-        // dd($user_id, $doctor);
+        $doctor = Doctor::find($user_id);
 
         return view('doctor.index', compact('doctor'));
     }
@@ -76,13 +72,17 @@ class DoctorController extends Controller
 
         $user_id = Auth::id();
 
-        if ($doctor->id == $user_id) {
-            // $user = User::where('id', $user_id)->get();
-            $userDetail = user::find($user_id);
-            // dd($userDetail);
-            // dd($doctor->specializations());
+        $averages = Doctor::select('slug as slug', 'doctors.id as doctor_id', Doctor::raw('AVG(votes.vote) as avgVote'))
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->groupBy('doctors.id')
+            ->get();
 
-            return view('doctor.show', compact('doctor', 'userDetail'));
+        if ($doctor->id == $user_id) {
+
+            $userDetail = user::find($user_id);
+
+            return view('doctor.show', compact('doctor', 'userDetail', 'averages'));
         } else {
             abort(403, 'Accesso negato');
         }
@@ -107,7 +107,6 @@ class DoctorController extends Controller
         } else {
             abort(403, 'Accesso negato');
         }
-        
     }
 
     /**
@@ -128,7 +127,7 @@ class DoctorController extends Controller
         if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
         }
-        
+
         if ($request->hasFile('photo')) {
             if ($doctor->photo) {
                 Storage::delete($doctor->photo);
@@ -136,9 +135,9 @@ class DoctorController extends Controller
             $photo_doctor = Storage::put('uploads', $val_data['photo']);
             $val_data['photo'] = $photo_doctor;
         }
-        
+
         $doctor->update($val_data);
-        
+
         return view('doctor.show', compact('doctor', 'userDetail'));
     }
 
