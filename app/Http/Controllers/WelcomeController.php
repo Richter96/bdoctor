@@ -39,7 +39,7 @@ class WelcomeController extends Controller
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
             ->join('users', 'doctors.id', '=', 'users.id')
-            ->where('specializations.id', '=', $spec_selected)
+            ->where('specializations.id', '=', $spec_selected) // Select only the doctor with selected specialization
             ->groupBy('doctors.id')
             ->get();
 
