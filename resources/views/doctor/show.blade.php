@@ -21,7 +21,7 @@
                 <div class="card d-flex flex-row p-2">
                     <div class="col-6 card-body">
                         <div class="d-flex align-items-center">
-                            <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $userDetail->name }} {{ $userDetail->lastname }}</h2>
+                            <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $user->name }} {{ $user->lastname }}</h2>
                             <a class="btn btn-danger " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
                         </div>
                         <div class=" mb-4">
@@ -31,7 +31,7 @@
                             <p><strong>Phone number: </strong>{{ $doctor->phone }}</p>
                         </div>
                         <div>
-                            <p><strong>Email: </strong>{{ $userDetail->email }}</p>
+                            <p><strong>Email: </strong>{{ $user->email }}</p>
                         </div>
                         <p><strong>Prestazioni: </strong>{{ $doctor->service }}</p>
                         <p><strong>Indirizzo </strong>{{ $doctor->address }}</p>

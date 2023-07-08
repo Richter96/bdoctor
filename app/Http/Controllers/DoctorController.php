@@ -46,7 +46,7 @@ class DoctorController extends Controller
         $val_data = $request->validated();
         $user_id = Auth::id();
 
-        $userDetail = user::find($user_id);
+        $user = user::find($user_id);
         $doctor = Doctor::find($user_id);
         $doctor->update($val_data);
 
@@ -59,7 +59,7 @@ class DoctorController extends Controller
             $val_data['photo'] = $photo_doctor;
         }
 
-        return view('doctor.show', compact('doctor', 'userDetail'));
+        return view('doctor.show', compact('doctor', 'user'));
     }
 
     /**
@@ -80,9 +80,9 @@ class DoctorController extends Controller
 
         if ($doctor->id == $user_id) {
 
-            $userDetail = user::find($user_id);
+            $user = user::find($user_id);
 
-            return view('doctor.show', compact('doctor', 'userDetail', 'averages'));
+            return view('doctor.show', compact('doctor', 'user', 'averages'));
         } else {
             abort(403, 'Accesso negato');
         }
@@ -99,11 +99,11 @@ class DoctorController extends Controller
         $user_id = Auth::id();
 
         if ($doctor->id == $user_id) {
-            $userDetail = user::find($user_id);
+            $user = user::find($user_id);
 
             $specializations = Specialization::orderByDesc('id')->get();
 
-            return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
+            return view('doctor.edit', compact('doctor', 'specializations', 'user'));
         } else {
             abort(403, 'Accesso negato');
         }
@@ -119,10 +119,10 @@ class DoctorController extends Controller
         $val_data = $request->validated();
         $user_id = Auth::id();
 
-        $userDetail = User::findOrFail($user_id);
-        $userDetail->name = $val_data['name'];
-        $userDetail->lastname = $val_data['lastname'];
-        $userDetail->save();
+        $user = User::findOrFail($user_id);
+        $user->name = $val_data['name'];
+        $user->lastname = $val_data['lastname'];
+        $user->save();
 
         if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
@@ -138,7 +138,7 @@ class DoctorController extends Controller
 
         $doctor->update($val_data);
 
-        return view('doctor.show', compact('doctor', 'userDetail'));
+        return view('doctor.show', compact('doctor', 'user'));
     }
 
     /**

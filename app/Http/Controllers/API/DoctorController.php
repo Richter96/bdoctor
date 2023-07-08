@@ -26,18 +26,16 @@ class DoctorController extends Controller
 
     public function show($slug)
     {
-        // dd($slug);
         $doctor = Doctor::with(['specializations'])->where('slug', $slug)->first();
         $user_id = $doctor->id;
-        $userDetail = User::find($user_id);
-        // dd($userDetail);
+        $user = User::find($user_id);
 
         if ($doctor) {
 
             return response()->json([
                 'success' => true,
                 'result' => $doctor,
-                'user' => $userDetail,
+                'user' => $user,
             ]);
         } else {
             return response()->json([
