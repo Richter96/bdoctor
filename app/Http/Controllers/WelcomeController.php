@@ -30,6 +30,7 @@ class WelcomeController extends Controller
             'email',
             'phone',
             'photo',
+            'address',
             'cv',
             'service',
             Doctor::raw('AVG(votes.vote) as avgVote')
@@ -42,7 +43,6 @@ class WelcomeController extends Controller
             ->where('specializations.id', '=', $spec_selected) // Select only the doctor with selected specialization
             ->groupBy('doctors.id')
             ->get();
-
         return view('welcome', compact('docs_info', 'specializations', 'spec_selected'));
     }
 }
