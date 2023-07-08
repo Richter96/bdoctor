@@ -14,16 +14,19 @@
             <form action="{{ route('form-specialization') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
-                    <select required class="form-select form-select-lg" name="specializations" id="specializations">
+                    <select required class="form-select form-select-lg" name="spec_selected" id="spec_selected">
                         <option disabled selected>Select one</option>
-                        @foreach ($specializations as $specialization)
-                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                        @foreach ($specializations as $spec)
+                            <option value="{{ $spec->id }}"
+                                {{ /* Only to show the last selection */ isset($spec_selected) ? ($spec_selected == $spec->id ? 'selected' : '') : '' }}>
+                                {{ $spec->name }}
+                            </option>
                         @endforeach
                     </select>
                     <button type="submit" class="input-group-text">Submit</button>
                 </div>
 
-                @error('specializations')
+                @error('spec_selected')
                     <div class="my-3"><small class="text-danger">{{ $message }}</small></div>
                 @enderror
             </form>
