@@ -3,39 +3,33 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Doctor;
-use App\Models\User;
-use App\Models\Specialization;
-use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
     public function index()
     {
-
-        $doctors = Doctor::with(['specializations'])->get();
+        $docs_info = $this
+            ->getDocsInfo()
+            ->get();
 
         return response()->json([
             'success' => true,
-            'doctors' => $doctors,
-            'user' => User::all(),
+            'doc_info' => $docs_info
         ]);
     }
 
-
     public function show($slug)
     {
-        $doctor = Doctor::with(['specializations'])->where('slug', $slug)->first();
-        $user_id = $doctor->id;
-        $user = User::find($user_id);
+        $docs_info = $this
+            ->getDocsInfo()
+            ->where('doctors.slug', '=', $slug)
+            ->get();
 
-        if ($doctor) {
-
+        if ($docs_info) {
             return response()->json([
                 'success' => true,
-                'result' => $doctor,
-                'user' => $user,
+                'result' => $docs_info,
             ]);
         } else {
             return response()->json([
@@ -45,50 +39,52 @@ class DoctorController extends Controller
         }
     }
 
-    public function showDoctorsBySpec($specialization_id)
+    public function showDoctorsBySpec($spec_id)
     {
+        $docs_info = $this
+            ->getDocsInfo()
+            ->where('specializations.id', '=', $spec_id)
+            ->get();
 
-        $specialization = Specialization::find($specialization_id);
-        if ($specialization) {
-
-            $doctors_id_specializations = $specialization->doctors->pluck('id')->toArray();
-            $doctors = [];
-            $users = [];
-            foreach ($doctors_id_specializations as $id) {
-                array_push($doctors, Doctor::with(['specializations'])->find($id));
-                array_push($users, User::find($id));
-            }
-
-            if ($doctors) {
-
-                return response()->json([
-                    'success' => true,
-                    'result' => $doctors,
-                    'users' => $users,
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'result' => 'doctor not found 404',
-                ]);
-            }
+        if ($docs_info) {
+            return response()->json([
+                'success' => true,
+                'result' => $docs_info,
+            ]);
         } else {
             return response()->json([
                 'success' => false,
-                'result' => 'specialization not found 404',
+                'result' => 'doctor not found 404',
             ]);
         }
     }
 
-    public function avgVotesByDoc()
+    /**
+     * Return  docs_info = an array of doctor with user-info and avgVote
+     *
+     */
+    private function getDocsInfo()
     {
-        /*$avgVotes = Doctor::table('doctors')->select('doc')->join('doctor_vote', 'doctor.id', '=', 'doctor_vote.doctor_id')->join('votes', 'votes.id', '=', 'doctor_vote.vote_id')->where('doctor.id', $doctor_id)->avg('votes.vote');
-        echo($avgVotes); */
-        Doctor::table('doctors')
-            ->select('doctors.id as doctor_id', Doctor::raw("'AVG'('votes.vote') as avgVote"))
+        $docs_info = Doctor::select(
+            'doctors.id',
+            'users.name AS name',
+            'lastname',
+            'slug',
+            'email',
+            'phone',
+            'photo',
+            'address',
+            'cv',
+            'service',
+            Doctor::raw('AVG(votes.vote) as avgVote')
+        )
+            ->with(['specializations'])
             ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
             ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
-            ->groupBy('doctors.id')
-            ->get();
+            ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
+            ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
+            ->join('users', 'doctors.id', '=', 'users.id')
+            ->groupBy('doctors.id');
+        return $docs_info;
     }
 }
