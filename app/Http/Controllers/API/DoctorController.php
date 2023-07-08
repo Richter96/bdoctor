@@ -59,8 +59,6 @@ class DoctorController extends Controller
                 array_push($users, User::find($id));
             }
 
-            $specializations = Specialization::all();
-
             if ($doctors) {
 
                 return response()->json([
