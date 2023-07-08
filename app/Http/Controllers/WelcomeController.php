@@ -20,19 +20,28 @@ class WelcomeController extends Controller
         $request->validate([
             'specializations' => ['required', 'numeric'],
         ]);
-        
-        $specialization_id_selected = $request->request->get('specializations');
-        $specialization = Specialization::find($specialization_id_selected);
-        $doctors_id_specializations = $specialization->doctors->pluck('id')->toArray();
-        $doctors = [];
-        $users = [];
-        foreach ($doctors_id_specializations as $id) {
-            array_push($doctors, Doctor::find($id));
-            array_push($users, User::find($id));
-        }
+
+        // doctor_ua = doctor with user_field and average_vote field
+        $doctors_ua = Doctor::select(
+            'doctors.id',
+            'name',
+            'lastname',
+            'slug',
+            'email',
+            'phone',
+            'photo',
+            'cv',
+            'service',
+            Doctor::raw('AVG(votes.vote) as avgVote')
+        )
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->join('users', 'doctors.id', '=', 'users.id')
+            ->groupBy('doctors.id')
+            ->get();
 
         $specializations = Specialization::all();
 
-        return view('welcome', compact('doctors','users', 'specializations'));
+        return view('welcome', compact('doctors_ua', 'specializations'));
     }
 }

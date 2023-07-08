@@ -29,21 +29,18 @@
             </form>
         </div>
 
-        @if (isset($doctors) && !empty($doctors))
-            <div class="row">
-                @foreach ($doctors as $index => $doctor)
-                    <div class="col">
-                        <div class="card">
+        @if (isset($doctors_ua) && !empty($doctors_ua))
+            <div class="row mb-5">
+                @foreach ($doctors_ua as $doctor)
+                    <div class="col-4 g-3">
+                        <div class="card h-100">
                             <div class="card-body">
-                                <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $users[$index]->name }} {{ $users[$index]->lastname }}</h2>
-                                <div>
-                                    <p><strong>Phone number: </strong>{{ $doctor->phone }}</p>
-                                </div>
-                                <div>
-                                    <p><strong>Email: </strong>{{ $users[$index]->email }}</p>
-                                </div>
-                                <p><strong>Prestazioni: </strong>{{ $doctor->service }}</p>
-                                <p><strong>Indirizzo </strong>{{ $doctor->address }}</p>
+                                <h2 class="card-title text-uppercase">{{ $doctor->name }} {{ $doctor->lastname }}</h2>
+                                <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $doctor->avgVote }}</div>
+                                <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
+                                <div class="mb-2"><strong>Email: </strong>{{ $doctor->email }}</div>
+                                <div class="mb-2"><strong>Prestazioni: </strong>{{ $doctor->service }}</div>
+                                <div class="mb-2"><strong>Indirizzo </strong>{{ $doctor->address }}</div>
                                 <span><strong>Specializzazioni:</strong></span>
                                 <ul>
                                     @forelse ($doctor->specializations as $specialization)
