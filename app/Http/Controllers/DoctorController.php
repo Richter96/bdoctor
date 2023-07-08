@@ -72,12 +72,7 @@ class DoctorController extends Controller
 
         $user_id = Auth::id();
 
-        $average = Doctor::select(Doctor::raw('AVG(votes.vote) as avgVote'))
-            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
-            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
-            ->groupBy('doctors.id')
-            ->where('doctors.id', '=', $user_id) // Select the specific user whit user_id
-            ->get()[0]; // With [0] i selected the only-one array element 
+        $average = $this->getAverage($user_id);
 
         if ($doctor->id == $user_id) {
 
@@ -119,6 +114,7 @@ class DoctorController extends Controller
     {
         $val_data = $request->validated();
         $user_id = Auth::id();
+        $average = $this->getAverage($user_id);
 
         $user = User::findOrFail($user_id);
         $user->name = $val_data['name'];
@@ -139,7 +135,7 @@ class DoctorController extends Controller
 
         $doctor->update($val_data);
 
-        return view('doctor.show', compact('doctor', 'user'));
+        return view('doctor.show', compact('doctor', 'user', 'average'));
     }
 
     /**
@@ -150,5 +146,16 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         //
+    }
+
+    private function getAverage($user_id)
+    {
+        $average = Doctor::select(Doctor::raw('AVG(votes.vote) as avgVote'))
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->groupBy('doctors.id')
+            ->where('doctors.id', '=', $user_id) // Select the specific user whit user_id
+            ->get()[0]; // With [0] i selected the only-one array element 
+        return $average;
     }
 }
