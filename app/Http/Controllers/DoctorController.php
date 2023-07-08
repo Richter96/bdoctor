@@ -72,17 +72,18 @@ class DoctorController extends Controller
 
         $user_id = Auth::id();
 
-        $averages = Doctor::select('slug as slug', 'doctors.id as doctor_id', Doctor::raw('AVG(votes.vote) as avgVote'))
+        $average = Doctor::select(Doctor::raw('AVG(votes.vote) as avgVote'))
             ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
             ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
             ->groupBy('doctors.id')
-            ->get();
+            ->where('doctors.id', '=', $user_id) // Select the specific user whit user_id
+            ->get()[0]; // With [0] i selected the only-one array element 
 
         if ($doctor->id == $user_id) {
 
             $user = user::find($user_id);
 
-            return view('doctor.show', compact('doctor', 'user', 'averages'));
+            return view('doctor.show', compact('doctor', 'user', 'average'));
         } else {
             abort(403, 'Accesso negato');
         }

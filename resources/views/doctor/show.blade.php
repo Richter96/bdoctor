@@ -24,18 +24,14 @@
                             <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $user->name }} {{ $user->lastname }}</h2>
                             <a class="btn btn-danger " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
                         </div>
-                        <div class=" mb-4">
-                            <smal class=" text-muted">Premi sul pulsante Edit per modificare il profilo.</smal>
-                        </div>
-                        <div>
-                            <p><strong>Phone number: </strong>{{ $doctor->phone }}</p>
-                        </div>
-                        <div>
-                            <p><strong>Email: </strong>{{ $user->email }}</p>
-                        </div>
-                        <p><strong>Prestazioni: </strong>{{ $doctor->service }}</p>
-                        <p><strong>Indirizzo </strong>{{ $doctor->address }}</p>
-                        <span><strong>Specializzazioni:</strong></span>
+                        <div class="mb-3 text-muted">Premi Edit per modificare il profilo.</div>
+                        <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $average->avgVote }}</div>
+                        <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
+                        <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
+                        <div class="mb-2"><strong>Email: </strong>{{ $user->email }}</div>
+                        <div class="mb-2"><strong>Prestazioni: </strong>{{ $doctor->service }}</div>
+                        <div class="mb-2"><strong>Indirizzo </strong>{{ $doctor->address }}</div>
+                        <div><strong>Specializzazioni:</strong></div>
                         <ul>
                             @forelse ($doctor->specializations as $specialization)
                                 <li>{{ $specialization->name }}</li>
@@ -50,7 +46,6 @@
                     </div>
                 </div>
             </div>
-            {{ $averages }}
         </div>
     </div>
 @endsection
