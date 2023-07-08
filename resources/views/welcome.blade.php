@@ -29,21 +29,21 @@
             </form>
         </div>
 
-        @if (isset($doctors_ua) && !empty($doctors_ua))
+        @if (isset($docs_info) && !empty($docs_info))
             <div class="row mb-5">
-                @foreach ($doctors_ua as $doctor)
+                @foreach ($docs_info as $doc_info)
                     <div class="col-4 g-3">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h2 class="card-title text-uppercase">{{ $doctor->name }} {{ $doctor->lastname }}</h2>
-                                <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $doctor->avgVote }}</div>
-                                <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
-                                <div class="mb-2"><strong>Email: </strong>{{ $doctor->email }}</div>
-                                <div class="mb-2"><strong>Prestazioni: </strong>{{ $doctor->service }}</div>
-                                <div class="mb-2"><strong>Indirizzo </strong>{{ $doctor->address }}</div>
+                                <h2 class="card-title text-uppercase">{{ $doc_info->name }} {{ $doc_info->lastname }}</h2>
+                                <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $doc_info->avgVote }}</div>
+                                <div class="mb-2"><strong>Phone number: </strong>{{ $doc_info->phone }}</div>
+                                <div class="mb-2"><strong>Email: </strong>{{ $doc_info->email }}</div>
+                                <div class="mb-2"><strong>Prestazioni: </strong>{{ $doc_info->service }}</div>
+                                <div class="mb-2"><strong>Indirizzo </strong>{{ $doc_info->address }}</div>
                                 <span><strong>Specializzazioni:</strong></span>
                                 <ul>
-                                    @forelse ($doctor->specializations as $specialization)
+                                    @forelse ($doc_info->specializations as $specialization)
                                         <li>{{ $specialization->name }}</li>
                                     @empty
                                         <li class=" list-unstyled">nessuna specializzazione</li>

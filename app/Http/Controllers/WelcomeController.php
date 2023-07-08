@@ -17,12 +17,11 @@ class WelcomeController extends Controller
 
     public function show(Request $request)
     {
-        $request->validate([
-            'specializations' => ['required', 'numeric'],
-        ]);
+        $request->validate(['specializations' => ['required', 'numeric'],]);
+        $specializations = Specialization::all();
 
-        // doctor_ua = doctor with user_field and average_vote field
-        $doctors_ua = Doctor::select(
+        // docs_info = an array of doctor with user-info and avgVote
+        $docs_info = Doctor::select(
             'doctors.id',
             'name',
             'lastname',
@@ -40,8 +39,6 @@ class WelcomeController extends Controller
             ->groupBy('doctors.id')
             ->get();
 
-        $specializations = Specialization::all();
-
-        return view('welcome', compact('doctors_ua', 'specializations'));
+        return view('welcome', compact('docs_info', 'specializations'));
     }
 }
