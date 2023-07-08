@@ -45,7 +45,7 @@ class DoctorController extends Controller
         }
     }
 
-    public function showBySpecialization($specialization_id)
+    public function showDoctorsBySpec($specialization_id)
     {
 
         $specialization = Specialization::find($specialization_id);
