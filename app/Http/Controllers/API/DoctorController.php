@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
@@ -39,12 +40,15 @@ class DoctorController extends Controller
         }
     }
 
-    public function showDoctorsBySpec($spec_id)
+    public function search(Request $request)
     {
         $docs_info = $this
             ->getDocsInfo()
-            ->where('specializations.id', '=', $spec_id)
-            ->get();
+            ->where('specializations.id', '=', $request->spec_id)
+            ->get()
+            // Queste where devono stare dopo il get altrimenti non funzionano, probabilmente è perchè sono delle subQuery
+            ->where('countReviews', '>=', $request->countReviews)
+            ->where('avgVote', '>=', $request->avgVote);
 
         if ($docs_info) {
             return response()->json([
@@ -60,7 +64,7 @@ class DoctorController extends Controller
     }
 
     /**
-     * Return  docs_info = an array of doctor with user-info and avgVote
+     * Return docs_info = an array of doctor with user-info and avgVote and count-review
      *
      */
     private function getDocsInfo()
@@ -76,11 +80,14 @@ class DoctorController extends Controller
             'address',
             'cv',
             'service',
-            Doctor::raw('AVG(votes.vote) as avgVote')
+            // Abbiamo scelto di utilizzare delle Subquery per far comparire il counter = 0 
+            // per i doctor che non hanno ne voti e ne recensioni, altrimenti questi dottori sarebbero stati esclusi dalla query
+            Doctor::raw('(SELECT COUNT(*) FROM reviews WHERE reviews.doctor_id = doctors.id) AS countReviews'), //Subquery che lavora autonomamente sulla tabella inserita tra parentesi
+            // Subquery che ci seleziona i voti di ogni dottore(gli devono corrispondere tra doctor_vote e doctor_id) dalla tabbela voti e ci fa la media
+            // Abbiamo dovuto inserire una JOIN in questa subquery perchè tra doctor e votes c'era una relazione many-to-many
+            Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
         )
             ->with(['specializations'])
-            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
-            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
             ->join('users', 'doctors.id', '=', 'users.id')
