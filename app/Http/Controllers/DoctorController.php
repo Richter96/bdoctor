@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isEmpty;
+
 class DoctorController extends Controller
 {
     /**
@@ -20,12 +22,8 @@ class DoctorController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        // dd($user_id);
-        // $doctor = Doctor::where('id', $user_id)->get(); // non funziona rotta show in
-        $doctor = Doctor::find($user_id);
-        // $user = User::where('id', $user_id)->get();
 
-        // dd($user_id, $doctor);
+        $doctor = Doctor::find($user_id);
 
         return view('doctor.index', compact('doctor'));
     }
@@ -50,7 +48,7 @@ class DoctorController extends Controller
         $val_data = $request->validated();
         $user_id = Auth::id();
 
-        $userDetail = user::find($user_id);
+        $user = user::find($user_id);
         $doctor = Doctor::find($user_id);
         $doctor->update($val_data);
 
@@ -63,7 +61,7 @@ class DoctorController extends Controller
             $val_data['photo'] = $photo_doctor;
         }
 
-        return view('doctor.show', compact('doctor', 'userDetail'));
+        return view('doctor.show', compact('doctor', 'user'));
     }
 
     /**
@@ -76,13 +74,13 @@ class DoctorController extends Controller
 
         $user_id = Auth::id();
 
-        if ($doctor->id == $user_id) {
-            // $user = User::where('id', $user_id)->get();
-            $userDetail = user::find($user_id);
-            // dd($userDetail);
-            // dd($doctor->specializations());
+        $average = $this->getAverage($user_id);
 
-            return view('doctor.show', compact('doctor', 'userDetail'));
+        if ($doctor->id == $user_id) {
+
+            $user = user::find($user_id);
+
+            return view('doctor.show', compact('doctor', 'user', 'average'));
         } else {
             abort(403, 'Accesso negato');
         }
@@ -99,15 +97,14 @@ class DoctorController extends Controller
         $user_id = Auth::id();
 
         if ($doctor->id == $user_id) {
-            $userDetail = user::find($user_id);
+            $user = user::find($user_id);
 
             $specializations = Specialization::orderByDesc('id')->get();
 
-            return view('doctor.edit', compact('doctor', 'specializations', 'userDetail'));
+            return view('doctor.edit', compact('doctor', 'specializations', 'user'));
         } else {
             abort(403, 'Accesso negato');
         }
-        
     }
 
     /**
@@ -119,16 +116,17 @@ class DoctorController extends Controller
     {
         $val_data = $request->validated();
         $user_id = Auth::id();
+        $average = $this->getAverage($user_id);
 
-        $userDetail = User::findOrFail($user_id);
-        $userDetail->name = $val_data['name'];
-        $userDetail->lastname = $val_data['lastname'];
-        $userDetail->save();
+        $user = User::findOrFail($user_id);
+        $user->name = $val_data['name'];
+        $user->lastname = $val_data['lastname'];
+        $user->save();
 
         if ($request->has('specializations')) {
             $doctor->specializations()->sync($request->specializations);
         }
-        
+
         if ($request->hasFile('photo')) {
             if ($doctor->photo) {
                 Storage::delete($doctor->photo);
@@ -136,10 +134,10 @@ class DoctorController extends Controller
             $photo_doctor = Storage::put('uploads', $val_data['photo']);
             $val_data['photo'] = $photo_doctor;
         }
-        
+
         $doctor->update($val_data);
-        
-        return view('doctor.show', compact('doctor', 'userDetail'));
+
+        return view('doctor.show', compact('doctor', 'user', 'average'));
     }
 
     /**
@@ -150,5 +148,16 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         //
+    }
+
+    private function getAverage($user_id)
+    {
+        $average = Doctor::select(Doctor::raw('AVG(votes.vote) as avgVote'))
+            ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
+            ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
+            ->groupBy('doctors.id')
+            ->where('doctors.id', '=', $user_id) // Select the specific user whit user_id
+            ->get();
+        return $average; // With [0] i selected the only-one array element 
     }
 }

@@ -14,39 +14,39 @@
             <form action="{{ route('form-specialization') }}" method="post">
                 @csrf
                 <div class="input-group mb-3">
-                    <select required class="form-select form-select-lg" name="specializations" id="specializations">
+                    <select required class="form-select form-select-lg" name="spec_selected" id="spec_selected">
                         <option disabled selected>Select one</option>
-                        @foreach ($specializations as $specialization)
-                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                        @foreach ($specializations as $spec)
+                            <option value="{{ $spec->id }}"
+                                {{ /* Only to show the last selection */ isset($spec_selected) ? ($spec_selected == $spec->id ? 'selected' : '') : '' }}>
+                                {{ $spec->name }}
+                            </option>
                         @endforeach
                     </select>
                     <button type="submit" class="input-group-text">Submit</button>
                 </div>
 
-                @error('specializations')
+                @error('spec_selected')
                     <div class="my-3"><small class="text-danger">{{ $message }}</small></div>
                 @enderror
             </form>
         </div>
 
-        @if (isset($doctors) && !empty($doctors))
-            <div class="row">
-                @foreach ($doctors as $index => $doctor)
-                    <div class="col">
-                        <div class="card">
+        @if (isset($docs_info) && !empty($docs_info))
+            <div class="row mb-5">
+                @foreach ($docs_info as $doc_info)
+                    <div class="col-4 g-3">
+                        <div class="card h-100">
                             <div class="card-body">
-                                <h2 class="card-title m-0 text-uppercase me-3 p-0 ">{{ $users[$index]->name }} {{ $users[$index]->lastname }}</h2>
-                                <div>
-                                    <p><strong>Phone number: </strong>{{ $doctor->phone }}</p>
-                                </div>
-                                <div>
-                                    <p><strong>Email: </strong>{{ $users[$index]->email }}</p>
-                                </div>
-                                <p><strong>Prestazioni: </strong>{{ $doctor->service }}</p>
-                                <p><strong>Indirizzo </strong>{{ $doctor->address }}</p>
+                                <h2 class="card-title text-uppercase">{{ $doc_info->name }} {{ $doc_info->lastname }}</h2>
+                                <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $doc_info->avgVote }}</div>
+                                <div class="mb-2"><strong>Phone number: </strong>{{ $doc_info->phone }}</div>
+                                <div class="mb-2"><strong>Email: </strong>{{ $doc_info->email }}</div>
+                                <div class="mb-2"><strong>Prestazioni: </strong>{{ $doc_info->service }}</div>
+                                <div class="mb-2"><strong>Indirizzo </strong>{{ $doc_info->address }}</div>
                                 <span><strong>Specializzazioni:</strong></span>
                                 <ul>
-                                    @forelse ($doctor->specializations as $specialization)
+                                    @forelse ($doc_info->specializations as $specialization)
                                         <li>{{ $specialization->name }}</li>
                                     @empty
                                         <li class=" list-unstyled">nessuna specializzazione</li>

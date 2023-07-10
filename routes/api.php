@@ -19,10 +19,10 @@ use App\Http\Controllers\API\VoteController;
 |
 */
 
-Route::get('/doctors',[DoctorController::class, 'index']);
-Route::get('/doctors/{doctor:slug}',[DoctorController::class, 'show']);
-Route::get('/specializations',[SpecializationController::class, 'index']);
-Route::get('/doctor_by_spec/{specialization:id}',[DoctorController::class, 'showBySpecialization']);
+Route::get('/doctors', [DoctorController::class, 'index']);
+Route::get('/doctors/{doctor:slug}', [DoctorController::class, 'show']);
+Route::get('/specializations', [SpecializationController::class, 'index']);
+Route::get('/doctors_by_spec/{specialization:id}', [DoctorController::class, 'showDoctorsBySpec']);
 Route::post('/review', [ReviewController::class, 'store']);
 Route::post('/message', [MessageController::class, 'store']);
 Route::post('/vote', [VoteController::class, 'store']);
