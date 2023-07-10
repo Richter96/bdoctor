@@ -49,13 +49,12 @@
                 </div>
 
                 <div class="col-12 d-flex justify-content-around">
-
                     <div class="col-5">
                         <label for="photo" class="form-label">Photo</label>
-                        <input type="file" class="form-control " name="photo" id="photo">
+                        <input required type="file" class="form-control " name="photo" id="photo">
                     </div>
-
                     {{-- photo --}}
+
                     <div class="col-5">
                         <label for="cv" class="form-label">Curriculum Vitae</label>
                         <input type="file" class="form-control " name="cv" id="cv">

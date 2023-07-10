@@ -25,8 +25,7 @@
                             <a class="btn btn-danger " href="{{ route('doctor.edit', $doctor) }}" role="button">Edit</a>
                         </div>
                         <div class="mb-3 text-muted">Premi Edit per modificare il profilo.</div>
-                        <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $average->avgVote }}</div>
-                        <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
+                        <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ isset($average[0]) ? $average[0]->avgVote : '-' }}</div>
                         <div class="mb-2"><strong>Phone number: </strong>{{ $doctor->phone }}</div>
                         <div class="mb-2"><strong>Email: </strong>{{ $user->email }}</div>
                         <div class="mb-2"><strong>Prestazioni: </strong>{{ $doctor->service }}</div>

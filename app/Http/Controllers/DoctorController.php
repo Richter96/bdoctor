@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isEmpty;
+
 class DoctorController extends Controller
 {
     /**
@@ -155,7 +157,7 @@ class DoctorController extends Controller
             ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
             ->groupBy('doctors.id')
             ->where('doctors.id', '=', $user_id) // Select the specific user whit user_id
-            ->get()[0]; // With [0] i selected the only-one array element 
-        return $average;
+            ->get();
+        return $average; // With [0] i selected the only-one array element 
     }
 }

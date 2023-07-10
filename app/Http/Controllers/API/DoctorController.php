@@ -85,6 +85,7 @@ class DoctorController extends Controller
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
             ->join('users', 'doctors.id', '=', 'users.id')
             ->groupBy('doctors.id');
+
         return $docs_info;
     }
 }
