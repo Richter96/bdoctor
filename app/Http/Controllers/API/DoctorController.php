@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
@@ -39,12 +40,15 @@ class DoctorController extends Controller
         }
     }
 
-    public function showDoctorsBySpec($spec_id)
+    public function search(Request $request)
     {
         $docs_info = $this
             ->getDocsInfo()
-            ->where('specializations.id', '=', $spec_id)
-            ->get();
+            ->where('specializations.id', '=', $request->spec_id)
+            ->get()
+            // Queste where devono stare dopo il get altrimenti non funzionano, probabilmente è perchè sono delle subQuery
+            ->where('countReviews', '>=', $request->countReviews)
+            ->where('avgVote', '>=', $request->avgVote);
 
         if ($docs_info) {
             return response()->json([
@@ -81,13 +85,14 @@ class DoctorController extends Controller
             Doctor::raw('(SELECT COUNT(*) FROM reviews WHERE reviews.doctor_id = doctors.id) AS countReviews'), //Subquery che lavora autonomamente sulla tabella inserita tra parentesi
             // Subquery che ci seleziona i voti di ogni dottore(gli devono corrispondere tra doctor_vote e doctor_id) dalla tabbela voti e ci fa la media
             // Abbiamo dovuto inserire una JOIN in questa subquery perchè tra doctor e votes c'era una relazione many-to-many
-            Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote')
+            Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
         )
             ->with(['specializations'])
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
             ->join('users', 'doctors.id', '=', 'users.id')
             ->groupBy('doctors.id');
+
         return $docs_info;
     }
 }
