@@ -16,7 +16,7 @@ class DoctorController extends Controller
 
         return response()->json([
             'success' => true,
-            'doc_info' => $docs_info
+            'doc_info' => $docs_info,
         ]);
     }
 
@@ -65,7 +65,6 @@ class DoctorController extends Controller
 
     /**
      * Return docs_info = an array of doctor with user-info and avgVote and count-review
-     *
      */
     private function getDocsInfo()
     {
@@ -80,12 +79,15 @@ class DoctorController extends Controller
             'address',
             'cv',
             'service',
-            // Abbiamo scelto di utilizzare delle Subquery per far comparire il counter = 0 
+            // Abbiamo scelto di utilizzare delle Subquery per far comparire il counter = 0
             // per i doctor che non hanno ne voti e ne recensioni, altrimenti questi dottori sarebbero stati esclusi dalla query
             Doctor::raw('(SELECT COUNT(*) FROM reviews WHERE reviews.doctor_id = doctors.id) AS countReviews'), //Subquery che lavora autonomamente sulla tabella inserita tra parentesi
             // Subquery che ci seleziona i voti di ogni dottore(gli devono corrispondere tra doctor_vote e doctor_id) dalla tabbela voti e ci fa la media
             // Abbiamo dovuto inserire una JOIN in questa subquery perchè tra doctor e votes c'era una relazione many-to-many
             Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
+
+            Doctor::raw('(SELECT sponsorship_id FROM doctor_sponsorship LEFT JOIN sponsorships ON doctor_sponsorship.sponsorship_id = sponsorships.id WHERE doctor_sponsorship.doctor_id = doctors.id) AS sponsorship_id'),
+
         )
             ->with(['specializations'])
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
