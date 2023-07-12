@@ -47,6 +47,7 @@ class DoctorController extends Controller
         $docs_info = $this
             ->getDocsInfo()
             ->where('specializations.id', '=', $request->spec_id)
+            ->orderBy('end_date', 'DESC')
             ->get()
             // Queste where devono stare dopo il get altrimenti non funzionano, probabilmente è perchè sono delle subQuery
             ->where('countReviews', '>=', $request->countReviews)
