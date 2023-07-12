@@ -1,68 +1,55 @@
 @extends('layouts.app')
 @section('content')
-    <div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="jumbotron  bg-light rounded-3">
         <div class="container text-center py-5">
-            <h1>WELCOME</h1>
-            <h2>Jumbotron</h2>
+            <h1>Benvenuto!</h1>
+            <p class="mt-4">Benvenuto nella nostra piattaforma per i professionisti della salute! Registrati come dottore per accedere a una vasta gamma di strumenti e risorse per aiutarti nella tua pratica quotidiana. Con la registrazione avrai la possibilità di entrare in contatto con molti pazienti che cercano proprio te!</p>
+
+            <div class="pt-4">
+                Scopri di più <i class="fa-solid fa-arrow-down fa-bounce"></i>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="container">
-            <h3 class="mb-3 mt-5">Che specialista desideri?</h3>
-
-            <form action="{{ route('form-specialization') }}" method="post">
-                @csrf
-                <div class="input-group mb-3">
-                    <select required class="form-select form-select-lg" name="spec_selected" id="spec_selected">
-                        <option disabled selected>Select one</option>
-                        @foreach ($specializations as $spec)
-                            <option value="{{ $spec->id }}"
-                                {{ /* Only to show the last selection */ isset($spec_selected) ? ($spec_selected == $spec->id ? 'selected' : '') : '' }}>
-                                {{ $spec->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="input-group-text">Submit</button>
+    <div class="container my-2">
+        <h4 class="pb-3">Perché sceglierci?</h4>
+        <div class="row">
+            <div class="col-4 d-flex">
+                <div class="icon mt-2">
+                    <i class="fa-solid fa-users-line fa-2x"></i>
                 </div>
-
-                @error('spec_selected')
-                    <div class="my-3"><small class="text-danger">{{ $message }}</small></div>
-                @enderror
-            </form>
+                <div class="text px-3">
+                    <strong>5 milioni</strong>
+                    <p>Di pazienti usano BDoctor ogni mese</p>
+                </div>
+            </div>
+            <div class="col-4 d-flex">
+                <div class="icon mt-2">
+                    <i class="fa-solid fa-calendar-days fa-2x"></i>
+                </div>
+                <div class="text px-3">
+                    <strong>1,5 milioni</strong>
+                    <p>Di prenotazioni mensili ogni mese</p>
+                </div>
+            </div>
+            <div class="col-4 d-flex">
+                <div class="icon mt-2">
+                    <i class="fa-solid fa-stethoscope fa-2x"></i>
+                </div>
+                <div class="text px-3">
+                    <strong>15 000</strong>
+                    <p>Specialisti della salute utilizzano BDoctor</p>
+                </div>
+            </div>
         </div>
 
-        @if (isset($docs_info) && !empty($docs_info))
-            <div class="row mb-5">
-                @foreach ($docs_info as $doc_info)
-                    <div class="col-4 g-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h2 class="card-title text-uppercase">{{ $doc_info->name }} {{ $doc_info->lastname }}</h2>
-                                <div class="mb-2 badge bg-danger"><strong>Vote: </strong>{{ $doc_info->avgVote }}</div>
-                                <div class="mb-2"><strong>Phone number: </strong>{{ $doc_info->phone }}</div>
-                                <div class="mb-2"><strong>Email: </strong>{{ $doc_info->email }}</div>
-                                <div class="mb-2"><strong>Prestazioni: </strong>{{ $doc_info->service }}</div>
-                                <div class="mb-2"><strong>Indirizzo </strong>{{ $doc_info->address }}</div>
-                                <span><strong>Specializzazioni:</strong></span>
-                                <ul>
-                                    @forelse ($doc_info->specializations as $specialization)
-                                        <li>{{ $specialization->name }}</li>
-                                    @empty
-                                        <li class=" list-unstyled">nessuna specializzazione</li>
-                                    @endforelse
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
-                @endforeach
-            </div>
-            <!-- /.row -->
-        @else
-            <div>Nessun risultato</div>
-        @endif
+    </div>
+    
+    <div class=" text-center my-2 py-4 bg-light">
+        <h5>Entra a far parte del nostro team di specialisti! </h5>
+        <a name="" id="" class="btn btn-dark my-2" href="{{ route('register') }}" role="button">Registrati</a>
 
+        <small class="d-block pt-3">Oppure</small>
+        <a name="" id="" class="btn btn-dark my-2" href="http://localhost:5174/" role="button">Torna al sito</a>
     </div>
 @endsection

@@ -1,7 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark shadow px-5">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-        {{-- <img height="40" src="{{ asset('storage/cyberfolk-logo.png') }}" alt="Personal Logo"> --}}
-        LOGO
+    <a class="navbar-brand d-flex align-items-center" href="http://localhost:5174/">
+        <img src="..\..\img\bdoctor.png" alt="" height="80">
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -24,7 +23,7 @@
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('profile') }}">{{ __('Profile') }}</a>
                         <a class="dropdown-item" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a>
+                        <a class="dropdown-item" href="{{ route('logout') }} " onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none"> @csrf </form>
                     </div>
                     <!-- dropdown-menu -->
