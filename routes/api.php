@@ -19,7 +19,7 @@ use App\Http\Controllers\API\VoteController;
 |
 */
 
-Route::get('/doctors', [DoctorController::class, 'index']);
+Route::get('/sponsored', [DoctorController::class, 'sponsored']);
 Route::get('/doctors/{doctor:slug}', [DoctorController::class, 'show']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
 Route::get('/search', [DoctorController::class, 'search']);

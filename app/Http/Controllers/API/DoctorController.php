@@ -5,14 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function sponsored()
     {
         $docs_info = $this
             ->getDocsInfo()
-            ->get();
+            ->get()
+            ->where('end_date', '>', now('Europe/Rome'));
 
         return response()->json([
             'success' => true,
@@ -85,9 +87,7 @@ class DoctorController extends Controller
             // Subquery che ci seleziona i voti di ogni dottore(gli devono corrispondere tra doctor_vote e doctor_id) dalla tabbela voti e ci fa la media
             // Abbiamo dovuto inserire una JOIN in questa subquery perchè tra doctor e votes c'era una relazione many-to-many
             Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
-
-            Doctor::raw('(SELECT sponsorship_id FROM doctor_sponsorship LEFT JOIN sponsorships ON doctor_sponsorship.sponsorship_id = sponsorships.id WHERE doctor_sponsorship.doctor_id = doctors.id) AS sponsorship_id'),
-
+            Doctor::raw('(SELECT end_date FROM doctor_sponsorship LEFT JOIN sponsorships ON doctor_sponsorship.sponsorship_id = sponsorships.id WHERE doctor_sponsorship.doctor_id = doctors.id) AS end_date'),
         )
             ->with(['specializations'])
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
