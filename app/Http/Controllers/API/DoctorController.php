@@ -14,9 +14,14 @@ class DoctorController extends Controller
             ->getDocsInfo()
             ->get();
 
+        $sponsoredDoctor = $this
+            ->sponsoredDoctors($docs_info)
+            ->where('end_date', '>', now());
+
         return response()->json([
             'success' => true,
-            'doc_info' => $docs_info,
+            'doc_info' => $sponsoredDoctor,
+
         ]);
     }
 
@@ -66,7 +71,7 @@ class DoctorController extends Controller
     /**
      * Return docs_info = an array of doctor with user-info and avgVote and count-review
      */
-    private function getDocsInfo()
+    public function getDocsInfo()
     {
         $docs_info = Doctor::select(
             'doctors.id',
@@ -79,6 +84,7 @@ class DoctorController extends Controller
             'address',
             'cv',
             'service',
+            'doctor_sponsorship.end_date',
             // Abbiamo scelto di utilizzare delle Subquery per far comparire il counter = 0
             // per i doctor che non hanno ne voti e ne recensioni, altrimenti questi dottori sarebbero stati esclusi dalla query
             Doctor::raw('(SELECT COUNT(*) FROM reviews WHERE reviews.doctor_id = doctors.id) AS countReviews'), //Subquery che lavora autonomamente sulla tabella inserita tra parentesi
@@ -92,9 +98,19 @@ class DoctorController extends Controller
             ->with(['specializations'])
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
-            ->join('users', 'doctors.id', '=', 'users.id')
-            ->groupBy('doctors.id');
+            ->leftJoin('doctor_sponsorship', 'doctors.id', '=', 'doctor_sponsorship.doctor_id')
+            ->leftJoin('sponsorships', 'doctor_sponsorship.sponsorship_id', '=', 'sponsorships.id')
+            ->join('users', 'doctors.id', '=', 'users.id');
+        // ->groupBy('doctors.id'); // va rimosso perchè se no da errore
 
         return $docs_info;
+    }
+
+    public function sponsoredDoctors($getDocsInfo)
+    {
+        $sponsoredDoctor = $getDocsInfo;
+        // dd($sponsoredDoctor);
+
+        return $sponsoredDoctor;
     }
 }
