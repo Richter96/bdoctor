@@ -6,6 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PdfController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::post('/', [WelcomeController::class, 'show'])->name('form-specialization');
+Route::get('/display_pdf', [PdfController::class , 'index'])->name('display_pdf');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

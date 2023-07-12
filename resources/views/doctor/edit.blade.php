@@ -59,6 +59,7 @@
                 <div class="col-5">
                     <label for="cv" class="form-label">Curriculum Vitae</label>
                     <input type="file" class="form-control " name="cv" id="cv">
+                    <button class="d-block my-2 rounded" name="cv" id="cv" class="btn btn-primary" value="">Elimina</button>
                 </div>
                 {{-- cv --}}
             </div>
