@@ -12,15 +12,12 @@ class DoctorController extends Controller
     {
         $docs_info = $this
             ->getDocsInfo()
-            ->get();
-
-        $sponsoredDoctor = $this
-            ->sponsoredDoctors($docs_info)
+            ->get()
             ->where('end_date', '>', now());
 
         return response()->json([
             'success' => true,
-            'doc_info' => $sponsoredDoctor,
+            'doc_info' => $docs_info,
 
         ]);
     }
@@ -98,8 +95,8 @@ class DoctorController extends Controller
             ->with(['specializations'])
             ->join('doctor_specialization', 'doctors.id', '=', 'doctor_specialization.doctor_id')
             ->join('specializations', 'doctor_specialization.specialization_id', '=', 'specializations.id')
-            ->leftJoin('doctor_sponsorship', 'doctors.id', '=', 'doctor_sponsorship.doctor_id')
-            ->leftJoin('sponsorships', 'doctor_sponsorship.sponsorship_id', '=', 'sponsorships.id')
+            ->Join('doctor_sponsorship', 'doctors.id', '=', 'doctor_sponsorship.doctor_id')
+            ->Join('sponsorships', 'doctor_sponsorship.sponsorship_id', '=', 'sponsorships.id')
             ->join('users', 'doctors.id', '=', 'users.id');
         // ->groupBy('doctors.id'); // va rimosso perchè se no da errore
 
@@ -110,6 +107,7 @@ class DoctorController extends Controller
     {
         $sponsoredDoctor = $getDocsInfo;
         // dd($sponsoredDoctor);
+        dd(now());
 
         return $sponsoredDoctor;
     }
