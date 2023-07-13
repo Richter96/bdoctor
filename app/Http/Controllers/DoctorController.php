@@ -61,6 +61,10 @@ class DoctorController extends Controller
             $val_data['photo'] = $photo_doctor;
         }
 
+        if($request->hasFile('cv')){
+            $cv_doctor = Storage::put('uploads', $val_data['cv']);
+            $val_data['cv'] = $cv_doctor;
+        }
         return view('doctor.show', compact('doctor', 'user'));
     }
 
@@ -133,6 +137,14 @@ class DoctorController extends Controller
             }
             $photo_doctor = Storage::put('uploads', $val_data['photo']);
             $val_data['photo'] = $photo_doctor;
+        }
+
+        if($request->hasFile('cv')){
+            if ($doctor->cv) {
+                Storage::delete($doctor->cv);
+            }
+            $cv_doctor = Storage::put('uploads', $val_data['cv']);
+            $val_data['cv'] = $cv_doctor;
         }
 
         $doctor->update($val_data);

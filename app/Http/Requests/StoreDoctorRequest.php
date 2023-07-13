@@ -29,7 +29,7 @@ class StoreDoctorRequest extends FormRequest
             'address' => 'required|max:100',
             'phone' => 'required|max:10',
             'photo' => 'nullable|image',
-            'cv' => 'nullable|max:255',
+            'cv' => 'nullable|max:955',
             'service' => 'required|max:100',
             'specializations' => ['exists:specializations,id']
         ];

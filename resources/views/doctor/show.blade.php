@@ -38,7 +38,12 @@
                         <li class=" list-unstyled">nessuna specializzazione</li>
                         @endforelse
                     </ul>
-
+                    @if ($doctor->cv)
+                    <div class="mb-2" >
+                        <strong>Visualizza il tuo curriculum </strong>
+                        <a href="{{ route('display_pdf', $doctor->cv) }}" class="text-decoration-none "><i class="fa-solid fa-file-pdf fa-2x text-dark"></i></a>
+                    </div>
+                    @endif
                 </div>
                 <div class="col-6 card_image p-3" style="width:300px">
                     @if ($doctor->photo)
@@ -46,8 +51,6 @@
                     @else
                     <img class="card-img-top" src="{{asset('img/bdoctor.png')}}" alt="Photo">
                     @endif
-
-
                 </div>
             </div>
         </div>

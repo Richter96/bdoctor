@@ -59,6 +59,7 @@
                 <div class="col-5">
                     <label for="cv" class="form-label">Curriculum Vitae</label>
                     <input type="file" class="form-control " name="cv" id="cv">
+                    <button class="d-block my-2 rounded" name="cv" id="cv" class="btn btn-primary" value="">Elimina</button>
                 </div>
                 {{-- cv --}}
             </div>
@@ -100,6 +101,44 @@
                 @enderror
             </div>
             {{-- specializations  --}}
+            <div class="sponsor px-5 mx-1 py-3">
+                <h6>Do you want your services to be sponsored?</h6>
+                <div class="col-12 d-flex">
+                    <div class="col-4 border p-1 pb-3">
+                        <i class="fa-solid fa-medal fa-2xl px-3" style="color: #CD7F32;"></i>
+                        <div class="info px-5">
+                            <h3>Bronze</h3>
+                            <h4> <strong>€2.99</strong></h4>
+                            <p>Durata: 24h</p>
+                            <div class="text-center">
+                                <a name="" id="" class="btn btn-light" href="#" role="button">Clicca qui</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 border p-1 pb-3">
+                        <i class="fa-solid fa-medal fa-2xl px-3" style="color: #C0C0C0;"></i>
+                        <div class="info px-5">
+                            <h3>Silver</h3>
+                            <h4> <strong>€5.99</strong></h4>
+                            <p>Durata: 72h</p>
+                            <div class="text-center">
+                                <a name="" id="" class="btn btn-light" href="#" role="button">Clicca qui</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 border p-1 pb-3">
+                        <i class="fa-solid fa-medal fa-2xl px-3" style="color: #FFD700;"></i>
+                        <div class="info px-5">
+                            <h3>Gold</h3>
+                            <h4> <strong>€9.99</strong></h4>
+                            <p>Durata: 144h</p>
+                            <div class="text-center">
+                                <a name="" id="" class="btn btn-light" href="#" role="button">Clicca qui</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-4 mx-auto text-center pt-3">
                 <button type="submit" class="btn btn-light text-dark px-4">Update</button>

@@ -29,7 +29,7 @@ class UpdateDoctorRequest extends FormRequest
             'address' => 'required|max:100',
             'phone' => 'required|max:10',
             'photo' => 'nullable|max:955',
-            'cv' => 'nullable|max:255',
+            'cv' => 'nullable|max:955',
             'service' => 'required',
             'specializations' => ['required', 'exists:specializations,id'],
 
