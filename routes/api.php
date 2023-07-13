@@ -7,6 +7,7 @@ use App\Http\Controllers\API\SpecializationController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\VoteController;
+use App\Http\Controllers\API\SponsorshipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use App\Http\Controllers\API\VoteController;
 */
 
 Route::get('/sponsored', [DoctorController::class, 'sponsored']);
+Route::get('/doctor_sponsorship', [SponsorshipController::class, 'update']);
 Route::get('/doctors/{doctor:slug}', [DoctorController::class, 'show']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
 Route::get('/search', [DoctorController::class, 'search']);
