@@ -87,7 +87,7 @@ class DoctorController extends Controller
             Doctor::raw('(SELECT COUNT(*) FROM reviews WHERE reviews.doctor_id = doctors.id) AS countReviews'), //Subquery che lavora autonomamente sulla tabella inserita tra parentesi
             // Subquery che ci seleziona i voti di ogni dottore(gli devono corrispondere tra doctor_vote e doctor_id) dalla tabbela voti e ci fa la media
             // Abbiamo dovuto inserire una JOIN in questa subquery perchè tra doctor e votes c'era una relazione many-to-many
-            Doctor::raw('(SELECT AVG(votes.vote) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
+            Doctor::raw('(SELECT CAST(AVG(votes.vote) AS DECIMAL(10,1)) FROM doctor_vote JOIN votes ON doctor_vote.vote_id = votes.id WHERE doctor_vote.doctor_id = doctors.id) AS avgVote'),
             Doctor::raw('(SELECT DATE(end_date) > DATE(NOW()) FROM doctor_sponsorship LEFT JOIN sponsorships ON doctor_sponsorship.sponsorship_id = sponsorships.id WHERE doctor_sponsorship.doctor_id = doctors.id) AS sponsored'),
         )
             ->with(['specializations'])
