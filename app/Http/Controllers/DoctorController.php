@@ -6,6 +6,7 @@ use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Models\Specialization;
+use App\Models\Sponsorship;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -61,7 +62,7 @@ class DoctorController extends Controller
             $val_data['photo'] = $photo_doctor;
         }
 
-        if($request->hasFile('cv')){
+        if ($request->hasFile('cv')) {
             $cv_doctor = Storage::put('uploads', $val_data['cv']);
             $val_data['cv'] = $cv_doctor;
         }
@@ -104,8 +105,9 @@ class DoctorController extends Controller
             $user = user::find($user_id);
 
             $specializations = Specialization::orderByDesc('id')->get();
+            $sponsorships = Sponsorship::all();
 
-            return view('doctor.edit', compact('doctor', 'specializations', 'user'));
+            return view('doctor.edit', compact('doctor', 'specializations', 'user', 'sponsorships'));
         } else {
             abort(403, 'Accesso negato');
         }
@@ -139,7 +141,7 @@ class DoctorController extends Controller
             $val_data['photo'] = $photo_doctor;
         }
 
-        if($request->hasFile('cv')){
+        if ($request->hasFile('cv')) {
             if ($doctor->cv) {
                 Storage::delete($doctor->cv);
             }
