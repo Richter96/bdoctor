@@ -183,33 +183,52 @@ class DoctorController extends Controller
         return $average; // With [0] i selected the only-one array element
     }
 
+    /** 
+     * ! Warning
+     * Funzione che prende sponsorship_id e doctor_id e aggiorna la tabella doctor_sponsorship
+     * 
+     * La sponsorship_id serve solo per recuperare il day_duration e modifare la end_date della sponsorship
+     * Nella tabella doctor_sponsorship non avremo mai più di una riga per un utente, anche se questi fa più sponsorship,
+     * Perchè l'utente quando va ad accumulare sponsorship non fa altro che estendere la sua end_date nella sua relativa riga di doctor_sponsorship
+     * Nella riga relativa ad un utente la cella che contiene sponsorship_id è poco significante dato che quella riga rappresenta la somma di più sponsorship
+     * Nel momenbto in cui un dottore ha già attiva una sponsorizzazione e se ne aggiunge un'altra => nella sua riga succederà che: 
+     *  - la end_date della sua sponsorizzazione viene estesa
+     *  - lo sponsorship_id relativo alla sponsorizzazione non viene modificato e quindi è come se fosse un dato da non considerare più
+     */
     private function add_sponsorship($doctor_id, $sponsorship_id)
     {
         $sponsorship = Sponsorship::find($sponsorship_id);
-
         $duration = $sponsorship->duration;
         $day_duration = $duration / 24;
 
+        // Variabile che indica se l'utente ha già una riga in doctor_sponsorship
         $has_sponsorship = DB::table('doctor_sponsorship')->where('doctor_id', '=', $doctor_id)->get();
 
         // Controlliamo se il dottore ha già fatto delle sponsorizzazioni
         if (count($has_sponsorship)) {
-            // Recuperiamo la scadenza della sponsorizzazione
-            $sponsorship_id = $has_sponsorship[0]->sponsorship_id;
-            $start_date = $has_sponsorship[0]->start_date;
-            $end_date = $has_sponsorship[0]->end_date;
-            $created_at = $has_sponsorship[0]->created_at;
-            $updated_at = $has_sponsorship[0]->updated_at;
-            $end_date_object = Carbon::createFromFormat('Y-m-d H:i:s', $end_date);
+
+            // Recuperiamo recuperiamo i dati della vecchia sponsorizzazione
+            $sponsorship_id   = $has_sponsorship[0]->sponsorship_id;
+            $start_date       = $has_sponsorship[0]->start_date;
+            $end_date         = $has_sponsorship[0]->end_date;
+            $created_at       = $has_sponsorship[0]->created_at;
+            $updated_at       = $has_sponsorship[0]->updated_at;
+
+            // Trasformiamo la stringa end_date in un oggetto cosi da poter effetturare il confronto con now()
+            $end_date_object  = Carbon::createFromFormat('Y-m-d H:i:s', $end_date);
 
             // Controlliamo se la data di scandenza è maggiore di oggi
             if ($end_date_object > now()) {
+                // Ci troviamo nel caso in cui la sponsorizzazione del dottore scade più in la della data attuale
+                // Creiamo una nuova data di scadenza partendo dalla vecchia data di scadenza e ci aggiungiamo la durata della sponsorship
                 $new_end_date = $end_date_object->addDays($day_duration);
             } else {
                 // Ci troviamo nel caso in cui la sponsorizzazione del dottore sia già scaduta
+                // Creiamo una nuova data di scadenza partendo dalla data di oggi e ci aggiungiamo la durata della sponsorship
                 $new_end_date = now()->addDay($day_duration);
             }
 
+            // Funzione che recupera la riga relativa all'utente doctor_id e aggiorna i parametri che vogliamo noi
             DB::table('doctor_sponsorship')->upsert(
                 [
                     'doctor_id' => $doctor_id,
@@ -221,11 +240,16 @@ class DoctorController extends Controller
                     'updated_at' => $updated_at,
                 ],
                 ['doctor_id', 'sponsorship_id'],
+
+                // Qui viene aggiornato il parametro end_date con il new_end_date calcolato in precedenza
                 ['end_date' => $new_end_date]
             );
         } else {
-            // Qui ci ritroviamo nel caso in cui il dottore non abbia mai fatto una sponsorizzazione oppure
+            // Qui ci ritroviamo nel caso in cui il dottore non ha mai fatto una sponsorizzazione 
+            // Creiamo una nuova data di scadenza partendo dalla data di oggi e ci aggiungiamo la durata della sponsorship
             $new_end_date = now()->addDay($day_duration);
+
+            // Funzione che aggiunge una nuova riga relativa a doctor_id nella tabella doctor_sponsorship 
             DB::table('doctor_sponsorship')->insert([
                 'doctor_id' => $doctor_id,
                 'sponsorship_id' => $sponsorship_id,
