@@ -21,7 +21,6 @@ use App\Http\Controllers\API\SponsorshipController;
 */
 
 Route::get('/sponsored', [DoctorController::class, 'sponsored']);
-Route::get('/doctor_sponsorship', [SponsorshipController::class, 'update']);
 Route::get('/doctors/{doctor:slug}', [DoctorController::class, 'show']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
 Route::get('/search', [DoctorController::class, 'search']);
