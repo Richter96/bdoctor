@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
             DoctorSeeder::class,
             SpecializationSeeder::class,
             VoteSeeder::class,
-            MessageSeeder::class,
-            ReviewSeeder::class,
+            SponsorshipSeeder::class,
         ]);
     }
 }
