@@ -7,6 +7,7 @@ use App\Http\Controllers\API\SpecializationController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\VoteController;
+use App\Http\Controllers\API\SponsorshipController;
 
 /*
 |--------------------------------------------------------------------------
