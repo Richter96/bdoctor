@@ -173,7 +173,7 @@ class DoctorController extends Controller
 
     private function getAverage($user_id)
     {
-        $average = Doctor::select(Doctor::raw('AVG(votes.vote) as avgVote'))
+        $average = Doctor::select(Doctor::raw('CAST(AVG(votes.vote) AS DECIMAL(10,1)) as avgVote'))
             ->join('doctor_vote', 'doctors.id', '=', 'doctor_vote.doctor_id')
             ->join('votes', 'doctor_vote.vote_id', '=', 'votes.id')
             ->groupBy('doctors.id')
