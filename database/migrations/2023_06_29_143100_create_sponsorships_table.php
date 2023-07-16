@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // required
             $table->decimal('price', $precision = 10, $scale = 2); // required
-            $table->decimal('duration', 10);
+            $table->decimal('duration', $precision = 10, $scale = 0);
             $table->timestamps();
         });
     }

@@ -8,7 +8,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\StatisticController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::post('/', [WelcomeController::class, 'show'])->name('form-specialization');
-Route::get('/display_pdf', [PdfController::class , 'index'])->name('display_pdf');
-
+Route::get('/display_pdf', [PdfController::class, 'index'])->name('display_pdf');
 Route::get('/get-data', [StatisticController::class, 'getData']);
-
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -35,7 +32,6 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::resource('message', MessageController::class)->parameters(['message']);
     Route::resource('review', ReviewController::class)->parameters(['review']);
     Route::resource('statistic', StatisticController::class)->parameters(['statistic']);
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -44,4 +40,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

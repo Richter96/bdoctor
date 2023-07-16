@@ -20,8 +20,8 @@ class ReviewController extends Controller
     {
         $user_id = Auth::id();
         $doctor = Doctor::find($user_id);
-        $review= Review::all();
-        $reviews=Review::where('doctor_id', $user_id)->get();
+        $review = Review::all();
+        $reviews = Review::where('doctor_id', $user_id)->orderByDesc('created_at')->get();
         return view('review.index', compact('doctor', 'reviews'));  // $doctor Serve per far funzionare la sidebar
     }
 
@@ -55,7 +55,7 @@ class ReviewController extends Controller
     public function show(Review $review)
     {
         $user_id = Auth::id();
-        $reviews= Review::find($user_id);
+        $reviews = Review::find($user_id);
         return view('reviews.index', compact('reviews'));
     }
 

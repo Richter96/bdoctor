@@ -17,27 +17,27 @@ class SponsorshipSeeder extends Seeder
     {
         $sponsorships = [
             (object) [
-                'name' => 'bronze',
+                'name' => 'Bronze',
                 'price' => '2.99',
                 'duration' => '24',
             ],
             (object) [
-                'name' => 'silver',
+                'name' => 'Silver',
                 'price' => '5.99',
                 'duration' => '72',
             ],
             (object) [
-                'name' => 'gold',
+                'name' => 'Gold',
                 'price' => '9.99',
                 'duration' => '144',
             ],
-            ];
-            foreach($sponsorships as $sponsorship) {
-                $new_sponsorship = new Sponsorship();
-                $new_sponsorship->name = $sponsorship->name;
-                $new_sponsorship->price = $sponsorship->price;
-                $new_sponsorship->duration = $sponsorship->duration;
-                $new_sponsorship->save();
-            }
+        ];
+        foreach ($sponsorships as $sponsorship) {
+            $new_sponsorship = new Sponsorship();
+            $new_sponsorship->name = $sponsorship->name;
+            $new_sponsorship->price = $sponsorship->price;
+            $new_sponsorship->duration = $sponsorship->duration;
+            $new_sponsorship->save();
+        }
     }
 }
