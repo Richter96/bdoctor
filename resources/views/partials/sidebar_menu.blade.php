@@ -7,15 +7,6 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'dashboard') ? 'bg_gold' : '' }}"
-                aria-current="page" href="{{ route('dashboard') }}">
-                <i class="me-2 fa-solid fa-gauge-high bg_white"></i>
-                {{ __('Dashboard') }}
-            </a>
-        </li>
-        <!-- nav-item -->
-        <li class="nav-item">
-            {{-- VEDI IN ALTO --}}
             <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'doctor') ? 'bg_gold' : '' }}"
                 aria-current="page" href="{{ route('doctor.show', $doctor) }}">
                 <i class="me-2 fa-solid fa-user bg_white"></i>
@@ -43,7 +34,8 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}" {{-- href="{{ route('statistic.index') }}" --}}>
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}"
+                href="{{ route('statistic.index') }}">
                 <i class="me-2 fa-solid fa-chart-simple bg_white"></i>
                 {{ __('Statistics') }}
             </a>
@@ -51,17 +43,3 @@
         <!-- nav-item -->
     </ul>
 </nav>
-
-<style lang="scss">
-    .bg_green_light {
-        background-color: #11BF59;
-    }
-
-    .bg_white {
-        color: white;
-    }
-
-    .bg_gold {
-        background-color: #e6c200;
-    }
-</style>

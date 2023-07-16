@@ -27,7 +27,6 @@ Route::get('/display_pdf', [PdfController::class, 'index'])->name('display_pdf')
 Route::get('/get-data', [StatisticController::class, 'getData']);
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('doctor', DoctorController::class)->parameters(['doctor' => 'doctor:slug']);
     Route::resource('message', MessageController::class)->parameters(['message']);
     Route::resource('review', ReviewController::class)->parameters(['review']);

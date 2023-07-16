@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg_green sticky-top shadow px-5">
+<nav class="navbar navbar-expand-md bg_green sticky-top shadow px-4">
     <a class="navbar-brand d-flex align-items-center" href="http://localhost:5174/">
         <img src="..\..\img\bdoctor.png" alt="" height="80">
     </a>
@@ -24,7 +24,6 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('profile') }}">{{ __('Profile') }}</a>
-                        <a class="dropdown-item" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></a>
                         <a class="dropdown-item" href="{{ route('logout') }} "
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }} </a>
@@ -39,13 +38,3 @@
     </div>
     <!-- navbar-collapse -->
 </nav>
-
-<style lang="scss">
-    .ms-border-gold {
-        border: 2px solid #e6c200 !important;
-    }
-
-    .bg_green {
-        background-color: #244D33;
-    }
-</style>
