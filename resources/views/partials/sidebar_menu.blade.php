@@ -43,8 +43,7 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}"
-                {{-- href="{{ route('statistic.index') }}" --}}>
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}" {{-- href="{{ route('statistic.index') }}" --}}>
                 <i class="me-2 fa-solid fa-chart-simple bg_white"></i>
                 {{ __('Statistics') }}
             </a>
