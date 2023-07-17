@@ -34,9 +34,13 @@
     color: white;
 }
 
+.sponsorshipBox {
+    margin-bottom: 3rem;
+}
+
 .payvment_btn {
-    width: 10rem;
+    width: 20rem;
     position: absolute;
-    left: calc(50% - 5rem);
-    bottom: 6%;
+    left: calc(50% - 10rem);
+    bottom: 8%;
 }

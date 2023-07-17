@@ -7,8 +7,7 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'dashboard') ? 'bg_gold' : '' }}"
-                aria-current="page" href="{{ route('dashboard') }}">
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'dashboard') ? 'bg_gold' : '' }}" aria-current="page" href="{{ route('dashboard') }}">
                 <i class="me-2 fa-solid fa-gauge-high bg_white"></i>
                 {{ __('Dashboard') }}
             </a>
@@ -16,8 +15,7 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'doctor') ? 'bg_gold' : '' }}"
-                aria-current="page" href="{{ route('doctor.show', $doctor) }}">
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'doctor') ? 'bg_gold' : '' }}" aria-current="page" href="{{ route('doctor.show', $doctor) }}">
                 <i class="me-2 fa-solid fa-user bg_white"></i>
                 {{ __('MY Profile') }}
             </a>
@@ -25,8 +23,7 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'review.') ? 'bg_gold' : '' }}"
-                href="{{ route('review.index') }}">
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'review.') ? 'bg_gold' : '' }}" href="{{ route('review.index') }}">
                 <i class="me-2 fa-solid fa-book-open-reader bg_white"></i>
                 {{ __('Reviews') }}
             </a>
@@ -34,8 +31,7 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'message') ? 'bg_gold' : '' }}"
-                href="{{ route('message.index') }}">
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'message') ? 'bg_gold' : '' }}" href="{{ route('message.index') }}">
                 <i class="me-2 fa-solid fa-message bg_white"></i>
                 {{ __('Messages') }}
             </a>
@@ -43,7 +39,7 @@
         <!-- nav-item -->
         <li class="nav-item">
             {{-- VEDI IN ALTO --}}
-            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}" {{-- href="{{ route('statistic.index') }}" --}}>
+            <a class="text-white nav-link {{ str_starts_with(Route::currentRouteName(), 'statistic') ? 'bg_gold' : '' }}" href="{{ route('statistic.index') }}">
                 <i class="me-2 fa-solid fa-chart-simple bg_white"></i>
                 {{ __('Statistics') }}
             </a>
@@ -64,4 +60,5 @@
     .bg_gold {
         background-color: #e6c200;
     }
+
 </style>
