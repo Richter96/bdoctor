@@ -1,29 +1,25 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container">
-        <h2 class="fs-4 text-black my-4">
-            {{ __('Dashboard') }}
-        </h2>
+<div class="container">
+    <h2 class="fs-1 text-black my-4 display-6">
+        {{ __('Dashboard') }}
+    </h2>
 
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">{{ __('User Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-                    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Benvenuto {{$user->name}} {{$user->lastname}}
+                </div>
+                <div class="m-3">
+                    <h4>Qui troverari le ultime novità rigaurdante la nostra struttura</h4>
+                    <h6>Non ci sono novità per ora</h6>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 <style lang="scss">
@@ -33,4 +29,5 @@
         background-attachment: fixed;
         background-size: cover;
     }
+
 </style>
